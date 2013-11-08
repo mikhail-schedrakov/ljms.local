@@ -1,0 +1,40 @@
+{% extends 'UmbrellaFrontendBundle::frontendLayout.html.twig' %}
+
+{% block middle %}
+    <div style="color:red;text-align:center;font-size:11px;font-weight:bold;padding:5px;"></div>
+    <form action="" method="post">
+        <table class="admin_table" align="center" border="0" cellpadding="0" cellspacing="0">
+            <tbody>
+                <tr>
+                    <td colspan="2" align="center"><b>Administrator Login Only</b></td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label>E-mail</label>
+                    </td>
+                    <td>
+                        {{ form_widget(form_auth.email, {'required': '', 'attr': {'class': 'admin_input'}}) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Password</label>
+                    </td>
+                    <td>
+                        {{ form_widget(form_auth.password, {'required': '', 'attr': {'class': 'admin_input'}}) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">                        
+                        {{ form_widget(form_auth.login, {'required': '', 'attr': {'class': 'btn'}}) }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {{ form_end(form_auth) }}
+    </form>
+    <div>
+        <a href="">Forgot password? Click here</a>
+    </div>
+{% endblock %}

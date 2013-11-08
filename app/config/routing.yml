@@ -1,0 +1,4 @@
+umbrella_frontend:
+    resource: "@UmbrellaFrontendBundle/Resources/config/routing.yml"
+    prefix:   /frontend
+

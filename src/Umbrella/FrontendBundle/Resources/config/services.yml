@@ -1,0 +1,7 @@
+parameters:
+#    umbrella_frontend.example.class: Umbrella\FrontendBundle\Example
+
+services:
+#    umbrella_frontend.example:
+#        class: %umbrella_frontend.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

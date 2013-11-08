@@ -1,0 +1,71 @@
+{% extends 'UmbrellaFrontendBundle::frontendLayout.html.twig' %}
+
+{% block script %}    
+    <script src="{{ asset ('js/jquery-1.8.3.js') }}"></script>
+    <script src="{{ asset ('js/jquery.jshowoff.js') }}"></script>
+    <script src="{{ asset ('js/frontend/jquery.jshowoff.home.js') }}"></script>
+{% endblock %}
+
+{% block middle %}
+
+    <div id="welcome">
+        <div id="welcome_head"><img src="{{ asset('images/welcome.gif')}}" alt="" />
+        </div>
+        <div id="welcome_img"><img src="{{ asset('images/welcome_image.jpeg') }}" alt="" />
+        </div>
+        <div id="welcome_txt">
+            <p>
+            	<span style="color: #000000;">
+            		Welcome to the&nbsp;Lockport Junior Miss Softball web site. The LJMS Executive Board is excited to introduce the new league site. This site will have many new features that will enable us to keep you informed and updated on all league activities.
+            	</span>
+            </p>
+            <p>
+            	&nbsp;
+            </p>
+            <div class="more_link">
+            	<a href="{{ path('about') }}">more about us</a>
+            </div>
+        </div>
+    </div>
+
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
+    <div id="sponsors">
+        <div>
+            <div id="sponsores_head"><img src="{{ asset('images/sponsors.gif') }}" alt="" />
+            </div>
+            <div class="more_link">
+            	<a href="{{ path('sponsors') }}">become one</a>
+            </div>
+            <div style="clear:both">            	
+            </div>
+        </div>
+
+        {# Slider #}
+        <div id="slideshow_sponsors_logo" style="height: 130px;">
+                <div style="text-align:center;">
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/22.jpeg') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/24.jpeg') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/18.jpeg') }}" alt="logo"/></a>
+                </div>
+                <div style="text-align:center;">
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/30.pjpeg') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/31.pjpeg') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/27.jpeg') }}" alt="logo"/></a>
+                </div>
+                <div style="text-align:center;">
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/33.pjpeg') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/34.gif') }}" alt="logo"/></a>
+                    <a href="http://www.mammaonesti.com" target="_blank"><img src="{{ asset('images/logoSponsors/37.x-png') }}" alt="logo"/></a>
+                </div>
+        </div>
+        {# endSlider #}
+
+    </div>
+
+    <div style="clear:both">    	
+    </div>
+
+{% endblock %}

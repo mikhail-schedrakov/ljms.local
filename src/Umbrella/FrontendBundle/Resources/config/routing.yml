@@ -1,0 +1,15 @@
+home:
+    pattern:  /home
+    defaults: { _controller: UmbrellaFrontendBundle:StaticPage:index }
+
+about:
+    pattern: /about
+    defaults: { _controller: UmbrellaFrontendBundle:StaticPage:about }
+
+sponsors:
+    pattern:  /sponsors
+    defaults: { _controller: UmbrellaFrontendBundle:StaticPage:sponsors }
+
+contact:
+    pattern:  /contact
+    defaults: { _controller: UmbrellaFrontendBundle:Contact:index }
