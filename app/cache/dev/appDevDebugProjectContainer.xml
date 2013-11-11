@@ -18,6 +18,8 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="UmbrellaFrontendBundle">Umbrella\FrontendBundle\UmbrellaFrontendBundle</parameter>
       <parameter key="EWZRecaptchaBundle">EWZ\Bundle\RecaptchaBundle\EWZRecaptchaBundle</parameter>
+      <parameter key="APYJsFormValidationBundle">APY\JsFormValidationBundle\APYJsFormValidationBundle</parameter>
+      <parameter key="BazingaExposeTranslationBundle">Bazinga\ExposeTranslationBundle\BazingaExposeTranslationBundle</parameter>
       <parameter key="AcmeDemoBundle">Acme\DemoBundle\AcmeDemoBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -482,6 +484,29 @@
     <parameter key="ewz_recaptcha.secure">false</parameter>
     <parameter key="ewz_recaptcha.locale_key">kernel.default_locale</parameter>
     <parameter key="ewz_recaptcha.enabled">true</parameter>
+    <parameter key="apy_js_form_validation.enabled">true</parameter>
+    <parameter key="apy_js_form_validation.yui_js">false</parameter>
+    <parameter key="apy_js_form_validation.check_modes" type="collection">
+      <parameter>submit</parameter>
+      <parameter>blur</parameter>
+    </parameter>
+    <parameter key="apy_js_form_validation.script_directory">bundles/jsformvalidation/js/</parameter>
+    <parameter key="apy_js_form_validation.validation_bundle">APYJsFormValidationBundle</parameter>
+    <parameter key="apy_js_form_validation.javascript_framework">jquery</parameter>
+    <parameter key="apy_js_form_validation.warmer_routes" type="collection"/>
+    <parameter key="apy_js_form_validation.identifier_field">jsfv_identifier</parameter>
+    <parameter key="apy_js_form_validation.translation_group">validators</parameter>
+    <parameter key="jsfv.generator.class">APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator</parameter>
+    <parameter key="twig.extension.jsformvalidation.class">APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension</parameter>
+    <parameter key="kernel.cache_warmer.jsformvalidation.class">APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer</parameter>
+    <parameter key="form.type_extension.validation_groups.class">APY\JsFormValidationBundle\Form\Extension\FormTypeExtension</parameter>
+    <parameter key="form.type_extension.repeated_field_parameters.class">APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension</parameter>
+    <parameter key="jsfv.validation_groups_listener.class">APY\JsFormValidationBundle\EventListener\ValidationGroupsListener</parameter>
+    <parameter key="jsfv.repeated_field_listener.class">APY\JsFormValidationBundle\EventListener\RepeatedFieldListener</parameter>
+    <parameter key="jsfv.controller.class">APY\JsFormValidationBundle\Controller\Controller</parameter>
+    <parameter key="bazinga.exposetranslation.finder.translation_finder.class">Bazinga\ExposeTranslationBundle\Finder\TranslationFinder</parameter>
+    <parameter key="bazinga.exposetranslation.dumper.translation_dumper.class">Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper</parameter>
+    <parameter key="bazinga.exposetranslation.controller.class">Bazinga\ExposeTranslationBundle\Controller\Controller</parameter>
     <parameter key="web_profiler.controller.profiler.class">Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController</parameter>
     <parameter key="web_profiler.controller.router.class">Symfony\Bundle\WebProfilerBundle\Controller\RouterController</parameter>
     <parameter key="web_profiler.controller.exception.class">Symfony\Bundle\WebProfilerBundle\Controller\ExceptionController</parameter>
@@ -588,6 +613,22 @@
         <argument type="collection">
           <argument>assetic.request_listener</argument>
           <argument>onKernelRequest</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>jsfv.pre_process</argument>
+        <argument type="collection">
+          <argument>jsfv.validation_groups_listener</argument>
+          <argument>onJsfvPreProcess</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListenerService">
+        <argument>jsfv.post_process</argument>
+        <argument type="collection">
+          <argument>jsfv.repeated_field_listener</argument>
+          <argument>onJsfvPostProcess</argument>
         </argument>
         <argument>0</argument>
       </call>
@@ -727,6 +768,7 @@
             <argument type="service" id="doctrine"/>
           </service>
         </argument>
+        <argument type="service" id="kernel.cache_warmer.jsformvalidation"/>
       </argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
@@ -1070,9 +1112,11 @@
                 <argument>form.type_extension.form.http_foundation</argument>
                 <argument>form.type_extension.form.validator</argument>
                 <argument>form.type_extension.csrf</argument>
+                <argument>form.type_extension.validation_groups</argument>
               </argument>
               <argument key="repeated" type="collection">
                 <argument>form.type_extension.repeated.validator</argument>
+                <argument>form.type_extension.repeated_field_parameters</argument>
               </argument>
               <argument key="submit" type="collection">
                 <argument>form.type_extension.submit.validator</argument>
@@ -2014,6 +2058,9 @@
         </argument>
       </call>
       <call method="addExtension">
+        <argument type="service" id="twig.extension.jsformvalidation"/>
+      </call>
+      <call method="addExtension">
         <argument type="service" id="twig.extension.acme.demo"/>
       </call>
       <call method="addGlobal">
@@ -2323,6 +2370,144 @@
     <service id="ewz_recaptcha.validator.true" class="EWZ\Bundle\RecaptchaBundle\Validator\Constraints\TrueValidator">
       <tag name="validator.constraint_validator" alias="ewz_recaptcha.true"/>
       <argument type="service" id="service_container"/>
+    </service>
+    <service id="jsfv.generator" class="APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator">
+      <argument type="service" id="service_container"/>
+    </service>
+    <service id="twig.extension.jsformvalidation" class="APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension">
+      <tag name="twig.extension"/>
+      <argument type="service" id="service_container"/>
+    </service>
+    <service id="kernel.cache_warmer.jsformvalidation" class="APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer">
+      <tag name="kernel.cache_warmer"/>
+      <argument type="service" id="service_container"/>
+    </service>
+    <service id="form.type_extension.validation_groups" class="APY\JsFormValidationBundle\Form\Extension\FormTypeExtension">
+      <tag name="form.type_extension" alias="form"/>
+      <call method="setJsfv">
+        <argument type="service" id="jsfv.generator"/>
+      </call>
+    </service>
+    <service id="form.type_extension.repeated_field_parameters" class="APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension">
+      <tag name="form.type_extension" alias="repeated"/>
+    </service>
+    <service id="jsfv.validation_groups_listener" class="APY\JsFormValidationBundle\EventListener\ValidationGroupsListener">
+      <tag name="kernel.event_listener" event="jsfv.pre_process" method="onJsfvPreProcess"/>
+    </service>
+    <service id="jsfv.repeated_field_listener" class="APY\JsFormValidationBundle\EventListener\RepeatedFieldListener">
+      <tag name="kernel.event_listener" event="jsfv.post_process" method="onJsfvPostProcess"/>
+    </service>
+    <service id="jsfv.controller" class="APY\JsFormValidationBundle\Controller\Controller">
+      <argument type="service" id="service_container"/>
+    </service>
+    <service id="bazinga.exposetranslation.finder.translation_finder" class="Bazinga\ExposeTranslationBundle\Finder\TranslationFinder">
+      <argument type="service" id="kernel"/>
+    </service>
+    <service id="bazinga.exposetranslation.dumper.translation_dumper" class="Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper">
+      <argument type="service" id="kernel"/>
+      <argument type="service" id="templating"/>
+      <argument type="service" id="bazinga.exposetranslation.finder.translation_finder"/>
+      <argument type="service" id="router"/>
+      <argument type="service" id="filesystem"/>
+      <call method="addLoader">
+        <argument>php</argument>
+        <argument type="service" id="translation.loader.php"/>
+      </call>
+      <call method="addLoader">
+        <argument>yml</argument>
+        <argument type="service" id="translation.loader.yml"/>
+      </call>
+      <call method="addLoader">
+        <argument>xliff</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>xliff</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>po</argument>
+        <argument type="service" id="translation.loader.po"/>
+      </call>
+      <call method="addLoader">
+        <argument>mo</argument>
+        <argument type="service" id="translation.loader.mo"/>
+      </call>
+      <call method="addLoader">
+        <argument>qt</argument>
+        <argument type="service" id="translation.loader.qt"/>
+      </call>
+      <call method="addLoader">
+        <argument>csv</argument>
+        <argument type="service" id="translation.loader.csv"/>
+      </call>
+      <call method="addLoader">
+        <argument>res</argument>
+        <argument type="service" id="translation.loader.res"/>
+      </call>
+      <call method="addLoader">
+        <argument>dat</argument>
+        <argument type="service" id="translation.loader.dat"/>
+      </call>
+      <call method="addLoader">
+        <argument>ini</argument>
+        <argument type="service" id="translation.loader.ini"/>
+      </call>
+    </service>
+    <service id="bazinga.exposetranslation.controller" class="Bazinga\ExposeTranslationBundle\Controller\Controller">
+      <argument type="service" id="translator"/>
+      <argument type="service" id="templating"/>
+      <argument type="service" id="bazinga.exposetranslation.finder.translation_finder"/>
+      <argument>/home/mikhail/lamp/ljms.local/app/cache/dev/bazinga_expose_translation</argument>
+      <argument>true</argument>
+      <argument></argument>
+      <argument type="collection">
+        <argument>messages</argument>
+      </argument>
+      <call method="addLoader">
+        <argument>php</argument>
+        <argument type="service" id="translation.loader.php"/>
+      </call>
+      <call method="addLoader">
+        <argument>yml</argument>
+        <argument type="service" id="translation.loader.yml"/>
+      </call>
+      <call method="addLoader">
+        <argument>xlf</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>xliff</argument>
+        <argument type="service" id="translation.loader.xliff"/>
+      </call>
+      <call method="addLoader">
+        <argument>po</argument>
+        <argument type="service" id="translation.loader.po"/>
+      </call>
+      <call method="addLoader">
+        <argument>mo</argument>
+        <argument type="service" id="translation.loader.mo"/>
+      </call>
+      <call method="addLoader">
+        <argument>ts</argument>
+        <argument type="service" id="translation.loader.qt"/>
+      </call>
+      <call method="addLoader">
+        <argument>csv</argument>
+        <argument type="service" id="translation.loader.csv"/>
+      </call>
+      <call method="addLoader">
+        <argument>res</argument>
+        <argument type="service" id="translation.loader.res"/>
+      </call>
+      <call method="addLoader">
+        <argument>dat</argument>
+        <argument type="service" id="translation.loader.dat"/>
+      </call>
+      <call method="addLoader">
+        <argument>ini</argument>
+        <argument type="service" id="translation.loader.ini"/>
+      </call>
     </service>
     <service id="twig.extension.acme.demo" class="Acme\DemoBundle\Twig\Extension\DemoExtension" public="false">
       <tag name="twig.extension"/>
@@ -2658,6 +2843,14 @@
         <argument>EWZRecaptcha</argument>
       </call>
       <call method="addPath">
+        <argument>/home/mikhail/lamp/ljms.local/vendor/apy/jsfv-bundle/APY/JsFormValidationBundle/Resources/views</argument>
+        <argument>APYJsFormValidation</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/mikhail/lamp/ljms.local/vendor/willdurand/expose-translation-bundle/Bazinga/ExposeTranslationBundle/Resources/views</argument>
+        <argument>BazingaExposeTranslation</argument>
+      </call>
+      <call method="addPath">
         <argument>/home/mikhail/lamp/ljms.local/src/Acme/DemoBundle/Resources/views</argument>
         <argument>AcmeDemo</argument>
       </call>
@@ -2760,6 +2953,7 @@
     <service id="mailer" alias="swiftmailer.mailer.default"/>
     <service id="database_connection" alias="doctrine.dbal.default_connection"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager"/>
+    <service id="jsfv" alias="jsfv.generator"/>
     <service id="sensio.distribution.webconfigurator" alias="sensio_distribution.webconfigurator"/>
   </services>
 </container>

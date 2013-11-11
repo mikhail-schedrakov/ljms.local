@@ -4,12 +4,6 @@
 {# Customize view error fields #}
 {% form_theme form_contact 'UmbrellaFrontendBundle:Form:fields.html.twig' %}
 
-{% block script %}    
-    <script src="{{ asset ('js/jquery-1.8.3.js') }}"></script>
-    <script src="{{ asset ('js/jquery.validate.js') }}"></script>
-    <script src="{{ asset ('js/frontend/jquery.validate.contact.js') }}"></script>
-{% endblock %}
-
 {% block middle %}
 
     <h1>Contact Us</h1>
@@ -20,7 +14,7 @@
     <p>Phone: (630) 453-0166 (Scott McCarthy)</p><br />
 
     <div class="contact_form">
-        <form action="" method="post" id="form_contact">
+        <form action="" method="post" id="form_contact" {{ form_enctype(form_contact) }}>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">             
                 
                 {# Name #}
@@ -30,7 +24,7 @@
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="100%" class='msg_err'>{{ form_errors(form_contact.name) }}</td>
+                    <td width="100%" id='msg_err_name' class='msg_err'>{{ form_errors(form_contact.name) }}</td>
                 </tr>
                 {# endName
 
@@ -41,7 +35,7 @@
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.email) }}</td>
+                    <td width="70%" id='msg_err_email' class='msg_err'>{{ form_errors(form_contact.email) }}</td>
                 </tr>
                 {# endEmail #}
 
@@ -52,7 +46,7 @@
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.subject) }}</td>
+                    <td width="70%" id='msg_err_subject' class='msg_err'>{{ form_errors(form_contact.subject) }}</td>
                 </tr>
                 {# endSubject #}
 
@@ -63,12 +57,12 @@
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.message) }}</td>
+                    <td width="70%" id='msg_err_message' class='msg_err'>{{ form_errors(form_contact.message) }}</td>
                 </tr>
                 {# endMessage #}
 
                 {# Recaptcha #}
-                <tr>
+                {# <tr>
                     <td width="30%" valign="top" style="padding-top:5px;">You are robot?</td>                    
                     <td width="70%" style="padding-top:5px;">
                         {{ form_widget(form_contact.recaptcha, { 'attr': {
@@ -81,7 +75,7 @@
                 <tr>
                     <td width="30%"></td>
                     <td width="70%" class='msg_err'>{{ form_errors(form_contact.recaptcha) }}</td>
-                </tr>
+                </tr> #}
                 {# endReCaptcha #}
 
                 <tr>

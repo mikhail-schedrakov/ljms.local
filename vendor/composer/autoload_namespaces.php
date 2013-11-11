@@ -29,6 +29,8 @@ return array(
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
     'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/lib'),
     'Doctrine\\Bundle\\DoctrineBundle' => array($vendorDir . '/doctrine/doctrine-bundle'),
+    'Bazinga\\ExposeTranslationBundle' => array($vendorDir . '/willdurand/expose-translation-bundle'),
     'Assetic' => array($vendorDir . '/kriswallsmith/assetic/src'),
+    'APY\\JsFormValidationBundle' => array($vendorDir . '/apy/jsfv-bundle'),
     '' => array($baseDir . '/src'),
 );

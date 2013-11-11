@@ -19,7 +19,9 @@
         "sensio/framework-extra-bundle": "2.3.*",
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
-        "excelwebzone/recaptcha-bundle": "dev-master"
+        "excelwebzone/recaptcha-bundle": "dev-master",
+        "apy/jsfv-bundle":"dev-master",
+        "willdurand/expose-translation-bundle": "1"
     },
     "scripts": {
         "post-install-cmd": [

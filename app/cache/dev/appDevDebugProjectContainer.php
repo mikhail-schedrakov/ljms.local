@@ -44,6 +44,9 @@ class appDevDebugProjectContainer extends Container
             'assetic.filter_manager' => 'getAssetic_FilterManagerService',
             'assetic.request_listener' => 'getAssetic_RequestListenerService',
             'assetic.value_supplier.default' => 'getAssetic_ValueSupplier_DefaultService',
+            'bazinga.exposetranslation.controller' => 'getBazinga_Exposetranslation_ControllerService',
+            'bazinga.exposetranslation.dumper.translation_dumper' => 'getBazinga_Exposetranslation_Dumper_TranslationDumperService',
+            'bazinga.exposetranslation.finder.translation_finder' => 'getBazinga_Exposetranslation_Finder_TranslationFinderService',
             'cache_clearer' => 'getCacheClearerService',
             'cache_warmer' => 'getCacheWarmerService',
             'controller_name_converter' => 'getControllerNameConverterService',
@@ -107,7 +110,9 @@ class appDevDebugProjectContainer extends Container
             'form.type_extension.form.http_foundation' => 'getForm_TypeExtension_Form_HttpFoundationService',
             'form.type_extension.form.validator' => 'getForm_TypeExtension_Form_ValidatorService',
             'form.type_extension.repeated.validator' => 'getForm_TypeExtension_Repeated_ValidatorService',
+            'form.type_extension.repeated_field_parameters' => 'getForm_TypeExtension_RepeatedFieldParametersService',
             'form.type_extension.submit.validator' => 'getForm_TypeExtension_Submit_ValidatorService',
+            'form.type_extension.validation_groups' => 'getForm_TypeExtension_ValidationGroupsService',
             'form.type_guesser.doctrine' => 'getForm_TypeGuesser_DoctrineService',
             'form.type_guesser.validator' => 'getForm_TypeGuesser_ValidatorService',
             'fragment.handler' => 'getFragment_HandlerService',
@@ -115,7 +120,12 @@ class appDevDebugProjectContainer extends Container
             'fragment.renderer.hinclude' => 'getFragment_Renderer_HincludeService',
             'fragment.renderer.inline' => 'getFragment_Renderer_InlineService',
             'http_kernel' => 'getHttpKernelService',
+            'jsfv.controller' => 'getJsfv_ControllerService',
+            'jsfv.generator' => 'getJsfv_GeneratorService',
+            'jsfv.repeated_field_listener' => 'getJsfv_RepeatedFieldListenerService',
+            'jsfv.validation_groups_listener' => 'getJsfv_ValidationGroupsListenerService',
             'kernel' => 'getKernelService',
+            'kernel.cache_warmer.jsformvalidation' => 'getKernel_CacheWarmer_JsformvalidationService',
             'locale_listener' => 'getLocaleListenerService',
             'logger' => 'getLoggerService',
             'monolog.handler.chromephp' => 'getMonolog_Handler_ChromephpService',
@@ -225,6 +235,7 @@ class appDevDebugProjectContainer extends Container
             'twig.controller.exception' => 'getTwig_Controller_ExceptionService',
             'twig.exception_listener' => 'getTwig_ExceptionListenerService',
             'twig.extension.acme.demo' => 'getTwig_Extension_Acme_DemoService',
+            'twig.extension.jsformvalidation' => 'getTwig_Extension_JsformvalidationService',
             'twig.loader' => 'getTwig_LoaderService',
             'twig.translation.extractor' => 'getTwig_Translation_ExtractorService',
             'uri_signer' => 'getUriSignerService',
@@ -239,6 +250,7 @@ class appDevDebugProjectContainer extends Container
             'database_connection' => 'doctrine.dbal.default_connection',
             'debug.templating.engine.twig' => 'templating',
             'doctrine.orm.entity_manager' => 'doctrine.orm.default_entity_manager',
+            'jsfv' => 'jsfv.generator',
             'mailer' => 'swiftmailer.mailer.default',
             'sensio.distribution.webconfigurator' => 'sensio_distribution.webconfigurator',
             'session.storage' => 'session.storage.native',
@@ -349,6 +361,77 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'bazinga.exposetranslation.controller' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Bazinga\ExposeTranslationBundle\Controller\Controller A Bazinga\ExposeTranslationBundle\Controller\Controller instance.
+     */
+    protected function getBazinga_Exposetranslation_ControllerService()
+    {
+        $a = $this->get('translation.loader.xliff');
+
+        $this->services['bazinga.exposetranslation.controller'] = $instance = new \Bazinga\ExposeTranslationBundle\Controller\Controller($this->get('translator'), $this->get('templating'), $this->get('bazinga.exposetranslation.finder.translation_finder'), '/home/mikhail/lamp/ljms.local/app/cache/dev/bazinga_expose_translation', true, '', array(0 => 'messages'));
+
+        $instance->addLoader('php', $this->get('translation.loader.php'));
+        $instance->addLoader('yml', $this->get('translation.loader.yml'));
+        $instance->addLoader('xlf', $a);
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('po', $this->get('translation.loader.po'));
+        $instance->addLoader('mo', $this->get('translation.loader.mo'));
+        $instance->addLoader('ts', $this->get('translation.loader.qt'));
+        $instance->addLoader('csv', $this->get('translation.loader.csv'));
+        $instance->addLoader('res', $this->get('translation.loader.res'));
+        $instance->addLoader('dat', $this->get('translation.loader.dat'));
+        $instance->addLoader('ini', $this->get('translation.loader.ini'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'bazinga.exposetranslation.dumper.translation_dumper' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper A Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper instance.
+     */
+    protected function getBazinga_Exposetranslation_Dumper_TranslationDumperService()
+    {
+        $a = $this->get('translation.loader.xliff');
+
+        $this->services['bazinga.exposetranslation.dumper.translation_dumper'] = $instance = new \Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper($this->get('kernel'), $this->get('templating'), $this->get('bazinga.exposetranslation.finder.translation_finder'), $this->get('router'), $this->get('filesystem'));
+
+        $instance->addLoader('php', $this->get('translation.loader.php'));
+        $instance->addLoader('yml', $this->get('translation.loader.yml'));
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('po', $this->get('translation.loader.po'));
+        $instance->addLoader('mo', $this->get('translation.loader.mo'));
+        $instance->addLoader('qt', $this->get('translation.loader.qt'));
+        $instance->addLoader('csv', $this->get('translation.loader.csv'));
+        $instance->addLoader('res', $this->get('translation.loader.res'));
+        $instance->addLoader('dat', $this->get('translation.loader.dat'));
+        $instance->addLoader('ini', $this->get('translation.loader.ini'));
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'bazinga.exposetranslation.finder.translation_finder' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Bazinga\ExposeTranslationBundle\Finder\TranslationFinder A Bazinga\ExposeTranslationBundle\Finder\TranslationFinder instance.
+     */
+    protected function getBazinga_Exposetranslation_Finder_TranslationFinderService()
+    {
+        return $this->services['bazinga.exposetranslation.finder.translation_finder'] = new \Bazinga\ExposeTranslationBundle\Finder\TranslationFinder($this->get('kernel'));
+    }
+
+    /**
      * Gets the 'cache_clearer' service.
      *
      * This service is shared.
@@ -376,7 +459,7 @@ class appDevDebugProjectContainer extends Container
 
         $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/home/mikhail/lamp/ljms.local/app/Resources');
 
-        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine'))));
+        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine')), 5 => $this->get('kernel.cache_warmer.jsformvalidation')));
     }
 
     /**
@@ -631,6 +714,8 @@ class appDevDebugProjectContainer extends Container
         $instance->addListenerService('kernel.response', array(0 => 'monolog.handler.firephp', 1 => 'onKernelResponse'), 0);
         $instance->addListenerService('kernel.response', array(0 => 'monolog.handler.chromephp', 1 => 'onKernelResponse'), 0);
         $instance->addListenerService('kernel.request', array(0 => 'assetic.request_listener', 1 => 'onKernelRequest'), 0);
+        $instance->addListenerService('jsfv.pre_process', array(0 => 'jsfv.validation_groups_listener', 1 => 'onJsfvPreProcess'), 0);
+        $instance->addListenerService('jsfv.post_process', array(0 => 'jsfv.repeated_field_listener', 1 => 'onJsfvPostProcess'), 0);
         $instance->addListenerService('kernel.controller', array(0 => 'acme.demo.listener', 1 => 'onKernelController'), 0);
         $instance->addSubscriberService('response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener');
         $instance->addSubscriberService('streamed_response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\StreamedResponseListener');
@@ -743,7 +828,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getForm_RegistryService()
     {
-        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity', 'ewz_recaptcha' => 'ewz_recaptcha.form.type'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf'), 'repeated' => array(0 => 'form.type_extension.repeated.validator'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
+        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity', 'ewz_recaptcha' => 'ewz_recaptcha.form.type'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf', 3 => 'form.type_extension.validation_groups'), 'repeated' => array(0 => 'form.type_extension.repeated.validator', 1 => 'form.type_extension.repeated_field_parameters'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
     }
 
     /**
@@ -1215,6 +1300,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'form.type_extension.repeated_field_parameters' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension A APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension instance.
+     */
+    protected function getForm_TypeExtension_RepeatedFieldParametersService()
+    {
+        return $this->services['form.type_extension.repeated_field_parameters'] = new \APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension();
+    }
+
+    /**
      * Gets the 'form.type_extension.submit.validator' service.
      *
      * This service is shared.
@@ -1225,6 +1323,23 @@ class appDevDebugProjectContainer extends Container
     protected function getForm_TypeExtension_Submit_ValidatorService()
     {
         return $this->services['form.type_extension.submit.validator'] = new \Symfony\Component\Form\Extension\Validator\Type\SubmitTypeValidatorExtension();
+    }
+
+    /**
+     * Gets the 'form.type_extension.validation_groups' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\Form\Extension\FormTypeExtension A APY\JsFormValidationBundle\Form\Extension\FormTypeExtension instance.
+     */
+    protected function getForm_TypeExtension_ValidationGroupsService()
+    {
+        $this->services['form.type_extension.validation_groups'] = $instance = new \APY\JsFormValidationBundle\Form\Extension\FormTypeExtension();
+
+        $instance->setJsfv($this->get('jsfv.generator'));
+
+        return $instance;
     }
 
     /**
@@ -1333,6 +1448,58 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'jsfv.controller' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\Controller\Controller A APY\JsFormValidationBundle\Controller\Controller instance.
+     */
+    protected function getJsfv_ControllerService()
+    {
+        return $this->services['jsfv.controller'] = new \APY\JsFormValidationBundle\Controller\Controller($this);
+    }
+
+    /**
+     * Gets the 'jsfv.generator' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator A APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator instance.
+     */
+    protected function getJsfv_GeneratorService()
+    {
+        return $this->services['jsfv.generator'] = new \APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator($this);
+    }
+
+    /**
+     * Gets the 'jsfv.repeated_field_listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\EventListener\RepeatedFieldListener A APY\JsFormValidationBundle\EventListener\RepeatedFieldListener instance.
+     */
+    protected function getJsfv_RepeatedFieldListenerService()
+    {
+        return $this->services['jsfv.repeated_field_listener'] = new \APY\JsFormValidationBundle\EventListener\RepeatedFieldListener();
+    }
+
+    /**
+     * Gets the 'jsfv.validation_groups_listener' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\EventListener\ValidationGroupsListener A APY\JsFormValidationBundle\EventListener\ValidationGroupsListener instance.
+     */
+    protected function getJsfv_ValidationGroupsListenerService()
+    {
+        return $this->services['jsfv.validation_groups_listener'] = new \APY\JsFormValidationBundle\EventListener\ValidationGroupsListener();
+    }
+
+    /**
      * Gets the 'kernel' service.
      *
      * This service is shared.
@@ -1343,6 +1510,19 @@ class appDevDebugProjectContainer extends Container
     protected function getKernelService()
     {
         throw new RuntimeException('You have requested a synthetic service ("kernel"). The DIC does not know how to construct this service.');
+    }
+
+    /**
+     * Gets the 'kernel.cache_warmer.jsformvalidation' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer A APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer instance.
+     */
+    protected function getKernel_CacheWarmer_JsformvalidationService()
+    {
+        return $this->services['kernel.cache_warmer.jsformvalidation'] = new \APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer($this);
     }
 
     /**
@@ -2840,6 +3020,7 @@ class appDevDebugProjectContainer extends Container
         $instance->addExtension(new \Twig_Extension_Debug());
         $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), true, array(), array(), $this->get('assetic.value_supplier.default', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
+        $instance->addExtension($this->get('twig.extension.jsformvalidation'));
         $instance->addExtension($this->get('twig.extension.acme.demo'));
         $instance->addGlobal('app', $this->get('templating.globals'));
 
@@ -2873,6 +3054,19 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'twig.extension.jsformvalidation' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension A APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension instance.
+     */
+    protected function getTwig_Extension_JsformvalidationService()
+    {
+        return $this->services['twig.extension.jsformvalidation'] = new \APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension($this);
+    }
+
+    /**
      * Gets the 'twig.loader' service.
      *
      * This service is shared.
@@ -2891,6 +3085,8 @@ class appDevDebugProjectContainer extends Container
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
         $instance->addPath('/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Resources/views', 'UmbrellaFrontend');
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/excelwebzone/recaptcha-bundle/EWZ/Bundle/RecaptchaBundle/Resources/views', 'EWZRecaptcha');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/apy/jsfv-bundle/APY/JsFormValidationBundle/Resources/views', 'APYJsFormValidation');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/willdurand/expose-translation-bundle/Bazinga/ExposeTranslationBundle/Resources/views', 'BazingaExposeTranslation');
         $instance->addPath('/home/mikhail/lamp/ljms.local/src/Acme/DemoBundle/Resources/views', 'AcmeDemo');
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Bundle/WebProfilerBundle/Resources/views', 'WebProfiler');
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/views', 'SensioDistribution');
@@ -3343,6 +3539,8 @@ class appDevDebugProjectContainer extends Container
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
                 'UmbrellaFrontendBundle' => 'Umbrella\\FrontendBundle\\UmbrellaFrontendBundle',
                 'EWZRecaptchaBundle' => 'EWZ\\Bundle\\RecaptchaBundle\\EWZRecaptchaBundle',
+                'APYJsFormValidationBundle' => 'APY\\JsFormValidationBundle\\APYJsFormValidationBundle',
+                'BazingaExposeTranslationBundle' => 'Bazinga\\ExposeTranslationBundle\\BazingaExposeTranslationBundle',
                 'AcmeDemoBundle' => 'Acme\\DemoBundle\\AcmeDemoBundle',
                 'WebProfilerBundle' => 'Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle',
                 'SensioDistributionBundle' => 'Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle',
@@ -3827,6 +4025,31 @@ class appDevDebugProjectContainer extends Container
             'ewz_recaptcha.secure' => false,
             'ewz_recaptcha.locale_key' => 'kernel.default_locale',
             'ewz_recaptcha.enabled' => true,
+            'apy_js_form_validation.enabled' => true,
+            'apy_js_form_validation.yui_js' => false,
+            'apy_js_form_validation.check_modes' => array(
+                0 => 'submit',
+                1 => 'blur',
+            ),
+            'apy_js_form_validation.script_directory' => 'bundles/jsformvalidation/js/',
+            'apy_js_form_validation.validation_bundle' => 'APYJsFormValidationBundle',
+            'apy_js_form_validation.javascript_framework' => 'jquery',
+            'apy_js_form_validation.warmer_routes' => array(
+
+            ),
+            'apy_js_form_validation.identifier_field' => 'jsfv_identifier',
+            'apy_js_form_validation.translation_group' => 'validators',
+            'jsfv.generator.class' => 'APY\\JsFormValidationBundle\\Generator\\FormValidationScriptGenerator',
+            'twig.extension.jsformvalidation.class' => 'APY\\JsFormValidationBundle\\Twig\\Extension\\JsFormValidationTwigExtension',
+            'kernel.cache_warmer.jsformvalidation.class' => 'APY\\JsFormValidationBundle\\CacheWarmer\\JsFormValidationCacheWarmer',
+            'form.type_extension.validation_groups.class' => 'APY\\JsFormValidationBundle\\Form\\Extension\\FormTypeExtension',
+            'form.type_extension.repeated_field_parameters.class' => 'APY\\JsFormValidationBundle\\Form\\Extension\\RepeatedTypeExtension',
+            'jsfv.validation_groups_listener.class' => 'APY\\JsFormValidationBundle\\EventListener\\ValidationGroupsListener',
+            'jsfv.repeated_field_listener.class' => 'APY\\JsFormValidationBundle\\EventListener\\RepeatedFieldListener',
+            'jsfv.controller.class' => 'APY\\JsFormValidationBundle\\Controller\\Controller',
+            'bazinga.exposetranslation.finder.translation_finder.class' => 'Bazinga\\ExposeTranslationBundle\\Finder\\TranslationFinder',
+            'bazinga.exposetranslation.dumper.translation_dumper.class' => 'Bazinga\\ExposeTranslationBundle\\Dumper\\TranslationDumper',
+            'bazinga.exposetranslation.controller.class' => 'Bazinga\\ExposeTranslationBundle\\Controller\\Controller',
             'web_profiler.controller.profiler.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ProfilerController',
             'web_profiler.controller.router.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\RouterController',
             'web_profiler.controller.exception.class' => 'Symfony\\Bundle\\WebProfilerBundle\\Controller\\ExceptionController',

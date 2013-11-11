@@ -1229,3 +1229,14 @@ $.format = $.validator.format;
 		}
 	});
 }(jQuery));
+
+$().ready(function(){
+
+    jQuery.validator.addMethod(
+	"phone", 
+	function(phone_number, element) {
+		if (phone_number == '') return true;  
+		else return /^([\()0-9#*+ -])+$/i.test(phone_number);
+	}, "The Your may only  \()0-9#*+- characters .");
+	
+})

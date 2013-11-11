@@ -31,7 +31,7 @@ class __TwigTemplate_81d0d14b55f3606044aab3a11ae875c0b355432988117d447c0c790f669
         echo "    
     <script src=\"";
         // line 4
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/jquery-1.8.3.js"), "html", null, true);
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/jquery.js"), "html", null, true);
         echo "\"></script>
     <script src=\"";
         // line 5

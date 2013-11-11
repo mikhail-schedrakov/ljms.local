@@ -68,7 +68,7 @@ class ContactController extends Controller
             ->add('email', 'email', $constraints['email'])
             ->add('subject', 'text', $constraints['subject'])
             ->add('message', 'textarea', $constraints['message'])
-            ->add('recaptcha', 'ewz_recaptcha', $constraints['recaptcha'])
+            // ->add('recaptcha', 'ewz_recaptcha', $constraints['recaptcha'])
             ->add('send', 'submit')
             ->getForm();
 
@@ -86,9 +86,9 @@ class ContactController extends Controller
             
             'name' => array(
                 'constraints' => array(
-                    new NotBlank(array('message' => 'Youre Name should not be blank')),
+                    new NotBlank(),
                     new Length(array(
-                        'min' => 3,
+                        'min' => 2,
                         'max' => 255,
                         'charset' => 'UTF-8'
                     )),
@@ -98,11 +98,6 @@ class ContactController extends Controller
             'email' => array(
                 'constraints' => array(
                     new NotBlank(),
-                    new Length(array(
-                        'min' => 3,
-                        'max' => 255,
-                        'charset' => 'UTF-8'
-                    )),
                     new Email()
                 )   
             ),
@@ -122,7 +117,7 @@ class ContactController extends Controller
                 'constraints' => array(
                     new NotBlank(),
                     new Length(array(
-                        'min' => 3,
+                        'min' => 2,
                         'max' => 1000,
                         'charset' => 'UTF-8'
                     )),

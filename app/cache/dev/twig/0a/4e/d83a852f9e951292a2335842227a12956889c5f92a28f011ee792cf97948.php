@@ -10,7 +10,6 @@ class __TwigTemplate_0a4ed83a852f9e951292a2335842227a12956889c5f92a28f011ee792cf
         $this->parent = $this->env->loadTemplate("UmbrellaFrontendBundle::frontendLayout.html.twig");
 
         $this->blocks = array(
-            'script' => array($this, 'block_script'),
             'middle' => array($this, 'block_middle'),
         );
     }
@@ -30,28 +29,9 @@ class __TwigTemplate_0a4ed83a852f9e951292a2335842227a12956889c5f92a28f011ee792cf
     }
 
     // line 7
-    public function block_script($context, array $blocks = array())
-    {
-        echo "    
-    <script src=\"";
-        // line 8
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/jquery-1.8.3.js"), "html", null, true);
-        echo "\"></script>
-    <script src=\"";
-        // line 9
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/jquery.validate.js"), "html", null, true);
-        echo "\"></script>
-    <script src=\"";
-        // line 10
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/frontend/jquery.validate.contact.js"), "html", null, true);
-        echo "\"></script>
-";
-    }
-
-    // line 13
     public function block_middle($context, array $blocks = array())
     {
-        // line 14
+        // line 8
         echo "
     <h1>Contact Us</h1>
 
@@ -61,114 +41,102 @@ class __TwigTemplate_0a4ed83a852f9e951292a2335842227a12956889c5f92a28f011ee792cf
     <p>Phone: (630) 453-0166 (Scott McCarthy)</p><br />
 
     <div class=\"contact_form\">
-        <form action=\"\" method=\"post\" id=\"form_contact\">
+        <form action=\"\" method=\"post\" id=\"form_contact\" ";
+        // line 17
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getContext($context, "form_contact"), 'enctype');
+        echo ">
             <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">             
                 
                 ";
-        // line 27
+        // line 21
         echo "                <tr>
                     <td width=\"30%\" style=\"padding-top:3px; padding-bottom:5px;\">Your Name * </td>
                     <td width=\"70%\">";
-        // line 29
+        // line 23
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "name"), 'widget', array("required" => false, "id" => "name"));
         echo "</td>
                 </tr>
                 <tr>
                     <td width=\"30%\"></td>
-                    <td width=\"100%\" class='msg_err'>";
-        // line 33
+                    <td width=\"100%\" id='msg_err_name' class='msg_err'>";
+        // line 27
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "name"), 'errors');
         echo "</td>
                 </tr>
                 ";
-        // line 38
+        // line 32
         echo "                <tr>
                     <td width=\"30%\" style=\"padding-top:3px; padding-bottom:5px;\">Your Email * </td>
                     <td width=\"70%\">";
-        // line 40
+        // line 34
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "email"), 'widget', array("required" => false, "type" => "text", "id" => "email"));
         echo "</td>
                 </tr>
                 <tr>
                     <td width=\"30%\"></td>
-                    <td width=\"70%\" class='msg_err'>";
-        // line 44
+                    <td width=\"70%\" id='msg_err_email' class='msg_err'>";
+        // line 38
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "email"), 'errors');
         echo "</td>
                 </tr>
                 ";
-        // line 47
+        // line 41
         echo "
                 ";
-        // line 49
+        // line 43
         echo "                <tr>
                     <td width=\"30%\" style=\"padding-top:3px; padding-bottom:5px;\">Subject *</td>
                     <td width=\"70%\" >";
-        // line 51
+        // line 45
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "subject"), 'widget', array("required" => false, "id" => "subject"));
         echo "</td>
                 </tr>
                 <tr>
                     <td width=\"30%\"></td>
-                    <td width=\"70%\" class='msg_err'>";
-        // line 55
+                    <td width=\"70%\" id='msg_err_subject' class='msg_err'>";
+        // line 49
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "subject"), 'errors');
         echo "</td>
                 </tr>
                 ";
-        // line 58
+        // line 52
         echo "
                 ";
-        // line 60
+        // line 54
         echo "                <tr>
                     <td width=\"30%\" valign=\"top\" style=\"padding-top:5px;\">Your Message *</td>                    
                     <td width=\"70%\" style=\"padding-top:5px;\">";
-        // line 62
+        // line 56
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "message"), 'widget', array("required" => false, "id" => "message"));
         echo "</td>
                 </tr>
                 <tr>
                     <td width=\"30%\"></td>
-                    <td width=\"70%\" class='msg_err'>";
-        // line 66
+                    <td width=\"70%\" id='msg_err_message' class='msg_err'>";
+        // line 60
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "message"), 'errors');
         echo "</td>
                 </tr>
                 ";
-        // line 69
+        // line 63
         echo "
                 ";
-        // line 71
-        echo "                <tr>
-                    <td width=\"30%\" valign=\"top\" style=\"padding-top:5px;\">You are robot?</td>                    
-                    <td width=\"70%\" style=\"padding-top:5px;\">
-                        ";
-        // line 74
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "recaptcha"), 'widget', array("attr" => array("options" => array("theme" => "clean"))));
-        // line 78
-        echo "
-                    </td>
-                </tr>
-                <tr>
-                    <td width=\"30%\"></td>
-                    <td width=\"70%\" class='msg_err'>";
-        // line 83
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "recaptcha"), 'errors');
-        echo "</td>
-                </tr>
-                ";
-        // line 86
+        // line 65
+        echo "                ";
+        // line 79
+        echo "                ";
+        // line 80
         echo "
                 <tr>
                     <td><br /><br /></td>                    
                     <td>";
-        // line 89
+        // line 83
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form_contact"), "send"), 'widget', array("attr" => array("class" => "nextbtn")));
         echo "</td>
                 </tr>
             </table>
             ";
-        // line 92
+        // line 86
         echo         $this->env->getExtension('form')->renderer->renderBlock($this->getContext($context, "form_contact"), 'form_end');
         echo "
         </form>
@@ -200,6 +168,6 @@ class __TwigTemplate_0a4ed83a852f9e951292a2335842227a12956889c5f92a28f011ee792cf
 
     public function getDebugInfo()
     {
-        return array (  172 => 92,  166 => 89,  161 => 86,  156 => 83,  149 => 78,  147 => 74,  142 => 71,  139 => 69,  134 => 66,  127 => 62,  123 => 60,  120 => 58,  115 => 55,  108 => 51,  104 => 49,  101 => 47,  96 => 44,  89 => 40,  85 => 38,  80 => 33,  73 => 29,  69 => 27,  55 => 14,  52 => 13,  46 => 10,  42 => 9,  38 => 8,  33 => 7,  28 => 5,  26 => 3,);
+        return array (  140 => 86,  134 => 83,  129 => 80,  127 => 79,  125 => 65,  122 => 63,  117 => 60,  110 => 56,  106 => 54,  103 => 52,  98 => 49,  91 => 45,  87 => 43,  84 => 41,  79 => 38,  72 => 34,  68 => 32,  63 => 27,  56 => 23,  52 => 21,  46 => 17,  35 => 8,  32 => 7,  27 => 5,  25 => 3,);
     }
 }
