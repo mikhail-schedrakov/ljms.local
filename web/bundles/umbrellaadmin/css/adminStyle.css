@@ -648,3 +648,14 @@ color : #000099;
  }
 
 /**Alphabetic tabs (end)---------------*/
+
+
+/* My csss */
+
+.msg_err{
+    color: red;
+    margin: 0 0 15px 0;
+    padding: 0px;
+    width: 151px;
+}
+/***********/

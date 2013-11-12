@@ -24,7 +24,7 @@ class ProfileController extends Controller
         // Valid contacts form
         if (! $form->isValid())
         {
-            // Render contacts page whidth  valid errors   
+            // Render contacts page whidth valid errors   
             $content = $this->renderView('UmbrellaAdminBundle:Pages:profile.html.twig', array(
                 'form_profile' => $form->createView()
             ));
@@ -32,7 +32,7 @@ class ProfileController extends Controller
         else
         {   
             // Send email
-            $content = 'email send';
+            $content = 'profile save';
         }
 
         return new Response($content);

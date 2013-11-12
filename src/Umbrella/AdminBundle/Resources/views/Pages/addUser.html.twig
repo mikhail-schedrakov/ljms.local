@@ -1,7 +1,17 @@
 {% extends 'UmbrellaAdminBundle::adminLayout.html.twig' %}
 
 {# Customize view error fields #}
-{# {% form_theme form_profile 'UmbrellaAdminBundle:Form:fields.html.twig' %} #}
+{% form_theme form _self %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="msg_err">{{ error.message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %} 
+{% endblock form_errors %}
 
 {% block content %}
 
@@ -11,26 +21,40 @@
 
     <form id="add_user_form" action="" method="post">
         <div class="form_container">
-            <table border="0" align="center" width="80%">
+            <table border="0" align="center" width="80%" >
                 <tr class="form_head">
                     <td  colspan=4>
                         <h3>User information</h3>
                     </td>
                 </tr>
+                
                 <tr>
                     <td width="18%">
                         First Name *
                     </td>
-                    <td width="34%">
-                        <input type="text" id="first_name" name="first_name" value="" style="width: 150px;"></input>
+                    <td width="34%">                        
+                        {{ form_widget(form.firstName, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td width="18%">
                         Last Name *
                     </td>
-                    <td width="28%">
-                        <input type="text" id="last_name" name="last_name" value="" style="width: 150px;"></input>
+                    <td width="28%">                    
+                        {{ form_widget(form.lastName, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                 </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.firstName) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.lastName) }}
+                    </td>
+                </tr>
+
                 {# <tr>
                     <td>
                         Address *
@@ -61,68 +85,121 @@
                         <input type="text" id="zipcode" name="zipcode" value="" style="width: 150px;"></input>
                     </td>
                 </tr> #}
+
                 <tr>
                     <td>
                         Email *
                     </td>
-                    <td>
-                        <input type="text" id="email" name="email" value="" style="width: 150px;"></input>
+                    <td>                        
+                        {{ form_widget(form.email.first, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td>
                         Home Phone *
                     </td>
                     <td>
-                        <input type="text" id="home_phone" name="home_phone" value="" style="width: 150px;"></input>
+                        {{ form_widget(form.homePhone, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                 </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.email.first) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.homePhone) }}
+                    </td>
+                </tr>
+
                 <tr>
                     <td>
                         Email Confirm *
                     </td>
                     <td>
-                        <input type="text" id="email_confirm" name="email_confirm" value="" style="width: 150px;"></input>
+                        {{ form_widget(form.email.second, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td>
                         Cell Phone
                     </td>
                     <td>
-                        <input type="text" id="cell_phone" name="cell_phone" value="" style="width: 150px;"></input>
+                        {{ form_widget(form.cellPhone, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                 </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.email.second) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.cellPhone) }}
+                    </td>
+                </tr>
+
                 <tr>
                     <td>
                         Password *
                     </td>
                     <td>
-                        <input type="password" id="password" name="password" style="width: 150px;"></input>
+                        {{ form_widget(form.password.first, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td>
                         Alterntive Phone
                     </td>
                     <td>
-                        <input type="text" id="alt_phone" name="alt_phone" value="" style="width: 150px;"></input>
+                        {{ form_widget(form.altPhone, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                 </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.password.first) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.altPhone) }}
+                    </td>
+                </tr>
+
                 <tr>
                     <td>
                         Password<br/>  Confirm *
                     </td>
                     <td>
-                        <input type="password" id="password_confirm" name="password_confirm" style="width: 150px;"></input>
+                        {{ form_widget(form.password.second, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td>
                     </td>
                     <td>
                     </td>
                 </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.password.second) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                    </td>
+                </tr>
+
             </table>
         </div>
 
         <div style="text-align:center">
-            <input type="submit" class="button" name="add_user" id="add_user" value="Save"></input>
+            {{ form_widget(form.save, {'required': false, 'attr': {'class': 'button'}}) }}
         </div>        
-    
+        {{ form_end(form) }}
     </form>
 
     <a href="{{ path('system_users') }}" class="button" style="margin-left:900px;">Back</a>
+
 {% endblock %}

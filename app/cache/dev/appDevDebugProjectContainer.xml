@@ -161,7 +161,9 @@
     <parameter key="validator.mapping.loader.xml_files_loader.mapping_files" type="collection">
       <parameter>/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</parameter>
     </parameter>
-    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection"/>
+    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection">
+      <parameter>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml</parameter>
+    </parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="fragment.listener.class">Symfony\Component\HttpKernel\EventListener\FragmentListener</parameter>
     <parameter key="profiler.class">Symfony\Component\HttpKernel\Profiler\Profiler</parameter>
@@ -1349,11 +1351,6 @@
         <service class="Symfony\Component\Validator\Mapping\Loader\LoaderChain" public="false">
           <argument type="collection">
             <argument type="service">
-              <service class="Symfony\Component\Validator\Mapping\Loader\AnnotationLoader" public="false">
-                <argument type="service" id="annotation_reader"/>
-              </service>
-            </argument>
-            <argument type="service">
               <service class="Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader" public="false"/>
             </argument>
             <argument type="service">
@@ -1365,7 +1362,9 @@
             </argument>
             <argument type="service">
               <service class="Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader" public="false">
-                <argument type="collection"/>
+                <argument type="collection">
+                  <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml</argument>
+                </argument>
               </service>
             </argument>
           </argument>
@@ -1602,7 +1601,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>5282278704c05</argument>
+            <argument>5282569483779</argument>
           </service>
         </argument>
       </argument>
@@ -1869,7 +1868,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>5282278704c05</argument>
+            <argument>5282569483779</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>

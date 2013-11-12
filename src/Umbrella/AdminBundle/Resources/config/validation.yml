@@ -1,0 +1,49 @@
+Umbrella\AdminBundle\Entity\Profile:
+    properties:
+        firstName:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 255
+        lastName:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 255
+        email:
+            - NotBlank: ~
+            - Email: ~
+        homePhone:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 255
+            - Regex: 
+                pattern: "/^([0-9-_() +*])+$/i"
+                message: "Number must be of the characters: numbers, space, - ()"
+        cellPhone:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 255
+                minMessage: "Your first name must be at least {{ limit }} characters length"
+                maxMessage: "Your first name cannot be longer than {{ limit }} characters length"
+            - Regex: 
+                pattern: "/^([0-9-_() +*])+$/i"
+                message: "Number must be of the characters: numbers, space, - ()"
+        altPhone:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 255
+                minMessage: "Your first name must be at least {{ limit }} characters length"
+                maxMessage: "Your first name cannot be longer than {{ limit }} characters length"
+            - Regex: 
+                pattern: "/^([0-9-_() +*])+$/i"
+                message: "Number must be of the characters: numbers, space, - ()"
+        password:
+            - NotBlank:
+                message: 'Password field should not be blank.'
+            - Length:
+                min: 5
+                max: 255
