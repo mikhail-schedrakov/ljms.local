@@ -133,6 +133,49 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // admin
+        if (rtrim($pathinfo, '/') === '/admin') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'admin');
+            }
+
+            return array (  '_controller' => 'Umbrella\\SecurityBundle\\Controller\\AuthController::indexAction',  '_route' => 'admin',);
+        }
+
+        if (0 === strpos($pathinfo, '/log')) {
+            if (0 === strpos($pathinfo, '/login')) {
+                // login
+                if ($pathinfo === '/login') {
+                    return array (  '_controller' => 'Umbrella\\SecurityBundle\\Controller\\AuthController::loginAction',  '_route' => 'login',);
+                }
+
+                // login_check
+                if ($pathinfo === '/login_check') {
+                    return array('_route' => 'login_check');
+                }
+
+            }
+
+            // logout
+            if ($pathinfo === '/logout') {
+                return array('_route' => 'logout');
+            }
+
+        }
+
+        if (0 === strpos($pathinfo, '/admin')) {
+            // system_users
+            if ($pathinfo === '/admin/system_users') {
+                return array (  '_controller' => 'Umbrella\\AdminBundle\\Controller\\SystemUsersController::indexAction',  '_route' => 'system_users',);
+            }
+
+            // profile
+            if ($pathinfo === '/admin/profile') {
+                return array (  '_controller' => 'UmbrellaAdminBundle:Profile:index',  '_route' => 'profile',);
+            }
+
+        }
+
         if (0 === strpos($pathinfo, '/frontend')) {
             // home
             if ($pathinfo === '/frontend/home') {

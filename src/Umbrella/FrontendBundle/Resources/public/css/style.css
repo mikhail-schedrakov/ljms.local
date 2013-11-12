@@ -807,13 +807,13 @@ div.clear{clear:both}
 /* My css ****************************************************************************************/
 
 #msg p {
-	font-size: 12px;
+	font-size: 13px;
 	margin: 5px;
 	color: black;
 }
 
 .msg_err p {
-	font-size: 12px;
+	font-size: 13px;
 	margin: 5px;
 	color: red;
 }
