@@ -1,0 +1,650 @@
+@CHARSET "UTF-8";
+    /*----body Css.....*/
+body {
+    behavior : url("../css/csshover.htc");
+ }
+
+.main {
+    background-color : #660000;
+    font-family : Arial, "MS Trebuchet", sans-serif;
+    font-size : 14px;
+    color : #333333;
+ }
+
+.container {
+    width : 1003px;
+    margin-top : 0px;
+    margin-right : auto;
+    margin-bottom : 0px;
+    margin-left : auto;
+ }
+
+a, a:hover, a:visited {
+    color : #333333;
+ }
+
+a img {
+    border : 0;
+    margin-left : 5px;
+    margin-right : 5px;
+ }
+
+h1 {
+    color : #cc3333;
+ }
+
+h2 {
+    color : #cc3333;
+ }
+
+h3 {
+    color : #777777;
+    font-size : 18px;
+    text-decoration : underline;
+ }
+
+img {
+    behavior : url('js/pngFix/png.htc');
+ }
+
+ .only_print {
+    display : none }
+
+ .left {
+    float : left }
+
+ .right {
+    float : right }
+
+/*----body Css.....*/
+/*----Header Css.....*/
+#header {
+    height : 330px;
+    position : relative;
+ }
+
+#logo {
+    position : absolute;
+    z-index : 999;
+    height : 200px;
+    width : 211px;
+    left : 0px;
+    top : 0px;
+ }
+
+#head_top {
+    height : 86px;
+    position : absolute;
+    width : 1003px;
+    left : 0px;
+    top : 0px;
+ }
+
+#head_middle {
+    height : 122px;
+    position : absolute;
+    width : 1003px;
+    left : 0px;
+    top : 86px;
+    background-image : url(../images/main_img01.jpg);
+    background-repeat : no-repeat;
+ }
+
+#head_bottom {
+    height : 122px;
+    position : absolute;
+    width : 1003px;
+    left : 0px;
+    top : 208px;
+    background-image : url(../images/main_img02.jpg);
+    background-repeat : no-repeat;
+ }
+
+/*********************TOP LINKS START******************************/
+#top_links {
+    color : #FFFFFF;
+    width : 506px;
+    position : absolute;
+    z-index : 99;
+    left : 245px;
+    top : 14px;
+    font-family : Arial, Helvetica, sans-serif;
+    font-size : 14px;
+    font-weight : normal;
+    text-decoration : none;
+ }
+
+#top_links a {
+    color : #FFFFFF;
+    padding-left : 7px;
+    padding-right : 7px;
+    font-weight : bold;
+    text-decoration : none;
+ }
+
+#top_links a:visited {
+    color : #FFFFFF;
+    text-decoration : none;
+ }
+
+#top_links a:hover {
+    color : #660000;
+    text-decoration : none;
+ }
+
+/********************TOP LINKS END*****************************/
+/*****************LOGOUT BUTTON START******************************/
+#logout_button {
+    position : absolute;
+    right : 20px;
+    top : 60px;
+    font-weight : bold;
+    font-size : 14px;
+    text-decoration : none;
+    color : yellow;
+ }
+
+#logout_button a {
+    color : yellow;
+ }
+
+#logout_button a:hover {
+    color : red;
+    text-decoration : underline;
+ }
+
+/*****************LOGOUT BUTTON END******************************/
+/**********************NAV BAR START**********************************/
+.nav {
+    height : 65px;
+    background : url('../images/nav_bg.png') repeat-x;
+ }
+
+.nav ul {
+    width : 1000px;
+    list-style-type : none;
+    padding : 0;
+    margin : 0 auto;
+ }
+
+.nav li {
+    float : left;
+ }
+
+.nav li a {
+    display : block;
+    padding : 16px 7px 16px 7px;
+    color : #000;
+    font-size : 13px;
+    text-decoration : none;
+    border-left : 1px solid #bbbbbb;
+ }
+
+.nav li a:hover {
+    background : url('../images/nav_bg_active.png') repeat-x;
+    color : #cc3333;
+ }
+
+.nav li.first a {
+    border : 0;
+ }
+
+.nav li a.active {
+    background : url('../images/nav_bg_active.png') repeat-x;
+    color : #cc3333;
+ }
+
+.nav li a.active:hover {
+    background : url('../images/nav_bg_active.png') repeat-x;
+    color : #777777;
+ }
+
+.nav li:hover .submenu {
+    display : block !important;
+ }
+
+.submenu {
+    list-style-type : none;
+    position : absolute;
+    display : none;
+    background : #cccccc;
+ }
+
+.submenu a {
+    width : 90px;
+ }
+
+/*********************NAV BAR END***********************************/
+/*----Header Css.....*/
+/*------Validation---*/
+#edit_profile_form label.error {
+    margin-left : 10px;
+    width : 370px;
+    display : inline;
+    color : red;
+    padding-bottom : 10px;
+ }
+
+div.error {
+    display : none;
+ }
+
+//input {
+    border : 1px solid black;
+ }
+
+//input:focus {
+    border : 1px dotted black;
+ }
+
+input.error {
+    border : 1px dotted red;
+ }
+
+label.error {
+    display : block;
+    color : red;
+ }
+
+/*------End Validation---*/
+.admin_page_title {
+    width : 100%;
+    margin : 0 auto;
+    text-align : left;
+ }
+
+.add_edit_page_title {
+    width : 80%;
+    margin : 0 auto;
+    text-align : left;
+ }
+
+.add_edit_err_msg {
+    color : red;
+    text-align : center;
+    font-size : 14px;
+ }
+
+.add_edit_suc_msg {
+    color : green;
+    text-align : center;
+ }
+
+.form_container {
+    border : 1px solid #CCCCCC;
+    padding-bottom : 5px;
+    width : 800px;
+    margin : 0 auto;
+ }
+
+/*----Content Css.....*/
+/****Mass mail form start--------------------*/
+/****Mass mail form--------------------------*/
+/*********************Table Style Start*********************/
+#main .info_table {
+    padding : 0;
+    margin : 0;
+ }
+
+.info_table caption {
+    padding : 0 0 5px 0;
+    width : 100%;
+    font : italic 11px "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align : right;
+ }
+
+.info_table th {
+    font : bold 11px "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color : #333333;
+    border-right : 0;
+    border-bottom : 1px solid #c5c5c5;
+    border-top : 1px solid #c5c5c5;
+    letter-spacing : 2px;
+    text-transform : uppercase;
+    text-align : left;
+    padding : 6px 6px 6px 12px;
+    background : #CECECE url(../images/bg_header.jpg) no-repeat;
+ }
+
+.info_table th.nobg {
+    border-top : 0;
+    border-left : 0;
+    border-right : 0;
+    background : none;
+ }
+
+.info_table td {
+    border-right : 0;
+    border-bottom : 1px solid #cccccc;
+    background : #fff;
+    padding : 6px 6px 6px 12px;
+    color : #000;
+    font-size : 12px;
+ }
+
+.info_table tr.not_active td {
+    color : #999;
+ }
+
+.info_table th.spec {
+    border-left : 1px solid #C1DAD7;
+    border-top : 0;
+    background : #fff url(../images/bullet1.gif) no-repeat;
+    font : bold 10px "Trebuchet MS", Arial, Helvetica, sans-serif;
+ }
+
+.info_table th.specalt {
+    border-left : 1px solid #C1DAD7;
+    border-top : 0;
+    background : #f5fafa url(../images/bullet2.gif) no-repeat;
+    font : bold 10px "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color : #797268;
+ }
+
+.info_table tr {
+    border-left : 1px solid #cccccc;
+ }
+
+/**********************Teable Style end**********************************/
+#content {
+    background-color : #FFFFFF;
+    padding : 10px;
+    min-height : 400px;
+    /*for other browsers*/
+height : auto !important;
+    /*for IE*/
+height : 450px;
+ }
+
+.edit_profile_form {
+    border : 1px solid #CCCCCC;
+    width : 440px;
+    padding : 20px;
+    margin : 0px auto;
+ }
+
+/*******Buttons********/
+/*.button {
+    text-decoration : none;
+    font-size : 13px;
+    color : #FFF;
+    background-color : #660000;
+    padding : 5px 15px;
+ }
+
+*/
+/* Firefox */
+.button {
+    background : #660000;
+    color : #ffffff;
+    border : 1px solid #cccccc;
+    font-size : 12px;
+    padding : 3px;
+    margin : 5px 0 0px 5px;
+ }
+
+.disabled_button {
+    background : #eeeeee;
+    color : #ffffff;
+    padding : 5px 15px 5px 15px;
+    margin : 5px 5px 5px 0px;
+    border : 1px solid #cccccc;
+    font-size : 12px;
+    padding : 3px;
+    margin-left : 5px;
+ }
+
+a.button {
+    cursor : default;
+    color : #ffffff;
+    text-decoration : none;
+    padding-left : 5px;
+    padding-right : 5px;
+ }
+
+a.button:hover {
+    color : #ffffff;
+ }
+
+a.button:visited {
+    color : #ffffff;
+ }
+
+/* IE .button {
+    background : #333333;
+    color : #ffffff;
+    padding : 5px 15px 5px 15px;
+    margin : 5px 5px 5px 0px;
+    float : left;
+    clear : both;
+ }
+
+*/
+/*******Buttons end********/
+.edit_container {
+    width : 380px;
+    margin : 5px auto;
+ }
+
+.edit_container input {
+    width : 150px;
+ }
+
+.edit_profile_form label {
+    float : left;
+    width : 200px;
+    height : 22px;
+    line-height : 22px;
+    font-size : 13px;
+ }
+
+.message_container {
+    font-size: 13px;
+    width : 420px;
+    margin : 5px;
+    text-align : left;
+    color : red;
+    clear : both;
+}
+
+.message_container p {
+    padding-left: 226px;
+}
+
+#password_fields .message_container p {
+    padding-left: 195px;
+} 
+
+.del_role_button {
+    text-decoration : none;
+    font-size : 13px;
+    color : #FFF;
+    background-color : #660000;
+    padding : 5px 15px;
+ }
+
+/***Add Role button in "Add System User" form *******/
+span.active {
+    color : #FFF;
+    background-color : #660000;
+    padding : 5px 15px;
+    cursor : pointer;
+ }
+
+span.notactive {
+    cursor : default;
+    color : #000;
+    background-color : #cccccc;
+    padding : 5px 15px;
+ }
+
+/**************************************************/
+/*----Content Css.....*/
+/*----Pagination Css Starts.....*/
+div.pagination {
+    padding : 3px;
+    margin : 3px;
+    text-align : center;
+ }
+
+div.pagination a {
+    padding : 2px 5px 2px 5px;
+    margin : 2px;
+    border : 1px solid #AAAADD;
+    text-decoration : none;
+    /* no underline */
+color : #000099;
+ }
+
+div.pagination a:hover, div.digg a:active {
+    border : 1px solid #000099;
+    color : #000;
+ }
+
+div.pagination span.current {
+    padding : 2px 5px 2px 5px;
+    margin : 2px;
+    border : 1px solid #000099;
+    font-weight : bold;
+    background-color : #000099;
+    color : #FFF;
+ }
+
+div.pagination span.disabled {
+    padding : 2px 5px 2px 5px;
+    margin : 2px;
+    border : 1px solid #EEE;
+    color : #DDD;
+ }
+
+/****Page limit style***********************/
+#page_limit {
+    display : block;
+    text-align : right;
+    margin-top : 10px;
+ }
+
+#page_limit a {
+    padding : 2px 5px 2px 5px;
+    margin : 1px;
+    border : 1px solid #AAAADD;
+    text-decoration : none;
+    /* no underline */
+color : #000099;
+ }
+
+#page_limit a:hover {
+    color : #000;
+ }
+
+#page_limit b.current {
+    font-weight : bold;
+    padding : 2px 5px 2px 5px;
+    margin : 1px;
+    border : 1px solid #AAAADD;
+    background-color : #000099;
+    color : #FFF;
+    cursor : default;
+ }
+
+/******************************************/
+/*----Pagination Css ends.....*/
+/*----Footer Css.....*/
+#footer {
+    background-image : url(../images/footer_bg.jpg);
+    background-repeat : no-repeat;
+    height : 42px;
+    width : 1003px;
+ }
+
+.footer_contents {
+    color : #FFFFFF;
+    text-decoration : none;
+    padding-top : 14px;
+    padding-left : 10px;
+    padding-right : 10px;
+    font-size : 11px;
+ }
+
+.copyright {
+    float : left;
+    padding-left : 200px;
+ }
+
+.footer_links {
+    float : left;
+ }
+
+.footer_links a {
+    color : #FFFFFF;
+    text-decoration : none;
+    padding-right : 5px;
+    padding-left : 5px;
+ }
+
+.footer_links a:visited {
+    color : #FFFFFF;
+    text-decoration : none;
+ }
+
+.footer_links a:hover {
+    color : #660000;
+    text-decoration : none;
+ }
+
+/*----Footer Css.....*/
+#report_container {
+    border : 1px solid #cccccc;
+    padding : 10px;
+ }
+
+#report_container table td {
+    vertical-align : top;
+ }
+
+#report_container .duty_description {
+    width : 350px;
+    white-space : nowrap;
+    overflow : hidden;
+ }
+
+.del_row_in_contact_table {
+    cursor : pointer;
+ }
+
+.contact_table_row {
+    margin-top : 5px;
+ }
+
+/**Alphabetic tabs (start)---------------*/
+.aplha_tabs {
+    text-align : right;
+    margin-top : 5px;
+    float : right;
+    line-height : 25px;
+ }
+
+.aplha_tabs a {
+    padding : 2px 5px 2px 5px;
+    margin : 1px;
+    border : 1px solid #AAAADD;
+    text-decoration : none;
+    /* no underline */
+color : #000099;
+ }
+
+.aplha_tabs a:hover {
+    color : #000;
+ }
+
+.aplha_tabs b.current {
+    font-weight : bold;
+    padding : 2px 5px 2px 5px;
+    margin : 1px;
+    border : 1px solid #AAAADD;
+    background-color : #000099;
+    color : #FFF;
+    cursor : default;
+ }
+
+/**Alphabetic tabs (end)---------------*/

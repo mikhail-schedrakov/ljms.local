@@ -11,9 +11,11 @@ class AuthController extends Controller
 {
     public function indexAction()
     {
-        $content = $this->renderView('UmbrellaFrontendBundle:Pages:auth.html.twig');
+        // $content = $this->renderView('UmbrellaFrontendBundle:Pages:auth.html.twig');
 
-        return new Response($content);
+        // return new Response($content);
+
+        return $this->redirect($this->generateURL('system_users'));
     }
 
     public function loginAction()

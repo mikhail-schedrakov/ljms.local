@@ -1,14 +1,13 @@
-# Admin remake redirect on systems users
 admin:
-    pattern: /admin
+    pattern:  /admin
     defaults: { _controller: UmbrellaSecurityBundle:Auth:index }
 
 admin:
-    pattern: /admin/
+    pattern:  /admin/
     defaults: { _controller: UmbrellaSecurityBundle:Auth:index }
 
 login:
-    path:   /login
+    path:      /login
     defaults:  { _controller: UmbrellaSecurityBundle:Auth:login }
 
 login_check:

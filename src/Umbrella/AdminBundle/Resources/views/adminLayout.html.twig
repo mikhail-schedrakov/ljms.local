@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>LOCKPORT JUNIOR MISS - Adminisrator Area</title>
+        
+        <link href="{{ asset('bundles/umbrellaadmin/css/adminStyle.css') }}" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body class="main">
+        <div class="container">
+            
+            {# Header Starts #}
+            <div id="header" class="no_print">
+                <div id="logo">
+                    <a href="{{ path('home') }}">
+                        <img src="{{ asset('bundles/umbrellaadmin/images/logo.jpg') }}" alt="" border="0" style="margin-left:0px;" />
+                    </a>
+                </div>
+                <div id="head_top"></div>
+                <div id="logout_button">
+                    <a class="link" href="{{ path('profile') }}">My Profile</a> | 
+                    <a href="{{ path('logout') }}"> Log out</a>
+                </div>
+                <div id="head_middle">
+                    <div id="top_links">
+                        <a href="{{ path('home') }}">Home</a>|
+                        <a href="{{ path('about') }}">About</a>|
+                        <a href="{{ path('sponsors') }}">Sponsors</a>|
+                        <a href="{{ path('contact') }}">Contact</a>
+                    </div>
+                </div>
+                <div id="head_bottom"></div>
+            </div>
+            {# Header Ends end #}
+
+            {# Navigation Menu #}
+            <div class="nav no_print">
+                <div class="wrapper" >
+                    <!-- for align center needs specify the width -->
+                    <ul  >
+                        <li class="first"><a href="{{ path('system_users') }}"  class="active">System users</a></li>                    
+                    </ul>
+                </div>
+            </div>
+            {# End Navigation Menu #}
+
+            {# Content  #}
+            <div id="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+            {# End Content #}
+
+            {# Footer Starts #}
+            <div id="footer" class="no_print">
+                <div class="footer_contents">
+                    <div class="footer_links">
+                        <a href="{{ path('home') }}">Home</a>|
+                        <a href="{{ path('about') }}">About</a>|
+                        <a href="{{ path('sponsors') }}">Sponsors</a>|
+                        <a href="{{ path('contact') }}">Contact</a>
+                    </div>
+                    <div class="copyright">Copyright 2008 Lockport Junior Miss Softball</div>
+                </div>
+            </div>
+            {# End Footer Starts #}
+
+        </div>
+    </body>
+</html>

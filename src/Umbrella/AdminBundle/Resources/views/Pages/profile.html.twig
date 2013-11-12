@@ -1,0 +1,88 @@
+{% extends 'UmbrellaAdminBundle::adminLayout.html.twig' %}
+
+{# Customize view error fields #}
+{% form_theme form_profile 'UmbrellaAdminBundle:Form:fields.html.twig' %}
+
+{% block content %}
+
+    <div class="add_edit_page_title" style="width:50%">
+        <h2>Edit Profile</h2>
+    </div>
+
+    <div class="edit_profile_form" >
+        <form action="" method="post" id="edit_profile_form" >
+
+ 	       {# FirstName #}
+            <div class="edit_container">
+                <label>First Name *</label>      
+                {{ form_widget(form_profile.firstName, {'required': false}) }}
+            </div>
+            <div class="message_container">
+                {{ form_errors(form_profile.firstName) }}
+            </div>
+
+            {# LastName #}
+            <div class="edit_container">
+                <label>Last Name * </label>
+                {{ form_widget(form_profile.lastName, {'required': false}) }}
+            </div>
+            <div class="message_container">                
+                {{ form_errors(form_profile.lastName) }}              
+            </div>
+
+            {# Email #}
+            <div class="edit_container">
+                <label>Email *</label>
+                {{ form_widget(form_profile.email, {'required': false}) }}
+            </div>
+            <div class="message_container">
+                {{ form_errors(form_profile.email) }}
+            </div>
+
+            {# HomePhone #}
+            <div class="edit_container">
+                <label>Home Phone *</label>
+                {{ form_widget(form_profile.homePhone, {'required': false}) }}
+            </div>
+            <div class="message_container">
+                {{ form_errors(form_profile.homePhone) }}
+            </div>
+
+            {# CellPhone #}
+            <div class="edit_container">
+                <label>Cell Phone *</label>
+                {{ form_widget(form_profile.cellPhone, {'required': false}) }}
+            </div>
+            <div class="message_container">
+                {{ form_errors(form_profile.cellPhone) }}
+            </div>
+
+            {# Password #}
+            <div id="password_fields">
+                <div class="edit_container" style="padding-bottom:10px;">
+                    <label>Password *</label>
+                    {{ form_widget(form_profile.password.first, {'required': false}) }}
+                    <div class="message_container">
+                    	{# {{ form_errors(form_profile.password.first) }} #}
+               		 </div>
+                    <label>Confirm Password *</label>
+                    {{ form_widget(form_profile.password.second, {'required': false}) }}
+                    <div class="message_container">
+	                    {{ form_errors(form_profile.password.first) }}
+	                </div>
+                </div>
+                <div>
+                    <span>If you don't want to change password leave the password empty.</span>
+                </div>
+            </div>
+            <br>
+            {{ form_widget(form_profile.save, {'required': false, attr: {'class': 'button', 'style': 'position:relative; left:30px;'}}) }}
+            {{ form_end(form_profile) }}            
+        </form>
+    </div>
+
+    <div style="text-align:right;">
+        <a href="{{ path('system_users') }}" class="button">Back</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+Umbrella\AdminBundle\Entity\Profile:
+    type: entity
+    table: profile
+    id:
+        profileID:
+            type: integer
+            generator:
+                strategy: AUTO 
+    fields:
+        email:
+            unique: true
+            lenght: 255            
+            nullable: false
+        password:
+            type: string
+            lenght: 255
+            nullable: false
+        firstName:
+            type: string
+            lenght: 255
+            nullable: false
+        lastName:
+            type: string
+            lenght: 255
+            nullable: false
+        homePhone:
+            type: string
+            lenght: 255
+            nullable: false
+        cellPhone:
+            type: string
+            lenght: 255
+            nullable: true
+        altPhone:
+            type: string
+            lenght: 255
+            nullable: true

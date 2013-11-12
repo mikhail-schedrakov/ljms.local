@@ -5,3 +5,7 @@ system_users:
 profile:
     pattern: /profile
     defaults: { _controller: UmbrellaAdminBundle:Profile:index }
+
+add_user:
+    pattern: /system_users/add_user
+    defaults: { _controller: UmbrellaAdminBundle:SystemUsers:add_user }

@@ -171,7 +171,12 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             // profile
             if ($pathinfo === '/admin/profile') {
-                return array (  '_controller' => 'UmbrellaAdminBundle:Profile:index',  '_route' => 'profile',);
+                return array (  '_controller' => 'Umbrella\\AdminBundle\\Controller\\ProfileController::indexAction',  '_route' => 'profile',);
+            }
+
+            // add_user
+            if ($pathinfo === '/admin/system_users/add_user') {
+                return array (  '_controller' => 'Umbrella\\AdminBundle\\Controller\\SystemUsersController::add_userAction',  '_route' => 'add_user',);
             }
 
         }
