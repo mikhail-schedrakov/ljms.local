@@ -56,6 +56,8 @@ class __TwigTemplate_c01cfddd3b4af74e850ebf418a1bf8fd2f970538f26c2b2f40ab17b3dfc
         // line 13
         echo "    ";
         echo trim(preg_replace('/>\s+</', '><', ob_get_clean()));
+        echo " 
+";
     }
 
     // line 16
@@ -130,13 +132,13 @@ class __TwigTemplate_c01cfddd3b4af74e850ebf418a1bf8fd2f970538f26c2b2f40ab17b3dfc
         echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getContext($context, "form"), "email"), "first"), 'widget', array("required" => false, "attr" => array("style" => "width: 150px;")));
         echo "
                     </td>
-                    <td>
-                        Home Phone *
+                    <td>                        
+                        Email Confirm *
                     </td>
                     <td>
                         ";
         // line 100
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form"), "homePhone"), 'widget', array("required" => false, "attr" => array("style" => "width: 150px;")));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getContext($context, "form"), "email"), "second"), 'widget', array("required" => false, "attr" => array("style" => "width: 150px;")));
         echo "
                     </td>
                 </tr>
@@ -151,22 +153,22 @@ class __TwigTemplate_c01cfddd3b4af74e850ebf418a1bf8fd2f970538f26c2b2f40ab17b3dfc
                     </td>
                     <td width=\"18%\">
                     </td>
-                    <td width=\"28%\">
+                    <td width=\"28%\">                        
                         ";
         // line 112
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form"), "homePhone"), 'errors');
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getContext($context, "form"), "email"), "second"), 'errors');
         echo "
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        Email Confirm *
+                        Home Phone *
                     </td>
-                    <td>
+                    <td>                        
                         ";
         // line 121
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getContext($context, "form"), "email"), "second"), 'widget', array("required" => false, "attr" => array("style" => "width: 150px;")));
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form"), "homePhone"), 'widget', array("required" => false, "attr" => array("style" => "width: 150px;")));
         echo "
                     </td>
                     <td>
@@ -185,7 +187,7 @@ class __TwigTemplate_c01cfddd3b4af74e850ebf418a1bf8fd2f970538f26c2b2f40ab17b3dfc
                     <td width=\"34%\" >
                         ";
         // line 134
-        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getAttribute($this->getContext($context, "form"), "email"), "second"), 'errors');
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute($this->getContext($context, "form"), "homePhone"), 'errors');
         echo "
                     </td>
                     <td width=\"18%\">
@@ -302,6 +304,6 @@ class __TwigTemplate_c01cfddd3b4af74e850ebf418a1bf8fd2f970538f26c2b2f40ab17b3dfc
 
     public function getDebugInfo()
     {
-        return array (  287 => 203,  281 => 200,  276 => 198,  261 => 186,  247 => 175,  235 => 166,  227 => 161,  217 => 154,  208 => 148,  196 => 139,  188 => 134,  178 => 127,  169 => 121,  157 => 112,  149 => 107,  139 => 100,  130 => 94,  122 => 88,  120 => 72,  113 => 54,  105 => 49,  95 => 42,  86 => 36,  65 => 17,  62 => 16,  57 => 13,  54 => 12,  45 => 10,  40 => 9,  37 => 8,  34 => 7,  31 => 6,  26 => 4,);
+        return array (  289 => 203,  283 => 200,  278 => 198,  263 => 186,  249 => 175,  237 => 166,  229 => 161,  219 => 154,  210 => 148,  198 => 139,  190 => 134,  180 => 127,  171 => 121,  159 => 112,  151 => 107,  141 => 100,  132 => 94,  124 => 88,  122 => 72,  115 => 54,  107 => 49,  97 => 42,  88 => 36,  67 => 17,  64 => 16,  57 => 13,  54 => 12,  45 => 10,  40 => 9,  37 => 8,  34 => 7,  31 => 6,  26 => 4,);
     }
 }

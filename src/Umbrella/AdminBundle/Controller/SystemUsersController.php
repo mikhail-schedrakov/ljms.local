@@ -24,23 +24,31 @@ class SystemUsersController extends Controller
         $form = $this->createForm(new AddUserType(), $profile);
 
         // Handling request from contacts page
-        $form->handleRequest($request); 
+        $form->handleRequest($request);
 
-        // Valid contacts form
+        // Valid form
         if (! $form->isValid())
         {
             // Render contacts page whidth valid errors   
             $content = $this->renderView('UmbrellaAdminBundle:Pages:addUser.html.twig', array(
                 'form' => $form->createView()
             ));
+
+            return new Response($content);
         }
         else
-        {   
-            // Send email
-            $content = 'user added';
-        }
+        { 
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($profile);
+            $em->flush();
 
-        // return $this->render('UmbrellaAdminBundle:Pages:addUser.html.twig');
-        return new Response($content);
+            // show message on auth page
+            $this->get('session')->getFlashBag()->add(
+                'msg',
+                'New user was added successfully.'
+            );
+
+            return $this->redirect($this->generateURL('system_users'));    
+        }        
     }
 }

@@ -33,6 +33,46 @@ class __TwigTemplate_8ba14bea7a5cdb160047be4350ed303ff654642939476839d79975feef6
         <h2 >System Users</h2>
     </div>
 
+    ";
+        // line 10
+        echo "    ";
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute($this->getContext($context, "app"), "session"), "flashbag"), "get", array(0 => "msg"), "method"));
+        foreach ($context['_seq'] as $context["_key"] => $context["flashMessage"]) {
+            // line 11
+            echo "        <div class=\"msg\">
+            <p>";
+            // line 12
+            echo twig_escape_filter($this->env, $this->getContext($context, "flashMessage"), "html", null, true);
+            echo "</p>
+        </div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['flashMessage'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 15
+        echo "    
+    ";
+        // line 16
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getAttribute($this->getAttribute($this->getContext($context, "app"), "session"), "flashbag"), "get", array(0 => "msg_err"), "method"));
+        foreach ($context['_seq'] as $context["_key"] => $context["flashMessage"]) {
+            // line 17
+            echo "        <div class=\"msg_err\">
+            <p>";
+            // line 18
+            echo twig_escape_filter($this->env, $this->getContext($context, "flashMessage"), "html", null, true);
+            echo "</p>
+        </div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['flashMessage'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 21
+        echo "
+
     <div style=\"float:left\">
         <form action=\"index.php?pid=system_users\" method=\"post\" style=\"margin:0px; padding:0;\">
             <b  style=\"font-size: 14px;\">Filter by:</b>  
@@ -54,7 +94,7 @@ class __TwigTemplate_8ba14bea7a5cdb160047be4350ed303ff654642939476839d79975feef6
 
     <div style=\"text-align:right\">
         <a href=\"";
-        // line 29
+        // line 43
         echo $this->env->getExtension('routing')->getPath("add_user");
         echo "\">Add user</a>
     </div>
@@ -197,6 +237,6 @@ class __TwigTemplate_8ba14bea7a5cdb160047be4350ed303ff654642939476839d79975feef6
 
     public function getDebugInfo()
     {
-        return array (  58 => 29,  31 => 4,  28 => 3,);
+        return array (  98 => 43,  74 => 21,  65 => 18,  62 => 17,  58 => 16,  55 => 15,  46 => 12,  43 => 11,  38 => 10,  31 => 4,  28 => 3,);
     }
 }

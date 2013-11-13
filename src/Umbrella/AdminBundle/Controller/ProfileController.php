@@ -13,7 +13,11 @@ class ProfileController extends Controller
     public function indexAction(Request $request)
     {
         // New Profile object       
-        $profile = new Profile();
+        // $profile = new Profile();
+
+        $profile = $this->getDoctrine()
+            ->getRepository('UmbrellaAdminBundle:Profile')
+            ->find(1);
 
         // Create profile form
         $form = $this->createForm(new ProfileType(), $profile);        
@@ -32,7 +36,17 @@ class ProfileController extends Controller
         else
         {   
             // Send email
-            $content = 'profile save';
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($profile);
+            $em->flush();
+
+            // show message on auth page
+            $this->get('session')->getFlashBag()->add(
+                'msg',
+                'Profile updated.'
+            );
+
+            return $this->redirect($this->generateURL('system_users'));  
         }
 
         return new Response($content);

@@ -93,11 +93,11 @@
                     <td>                        
                         {{ form_widget(form.email.first, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
-                    <td>
-                        Home Phone *
+                    <td>                        
+                        Email Confirm *
                     </td>
                     <td>
-                        {{ form_widget(form.homePhone, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
+                        {{ form_widget(form.email.second, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                 </tr>
                 <tr valign="top">
@@ -108,17 +108,17 @@
                     </td>
                     <td width="18%">
                     </td>
-                    <td width="28%">
-                        {{ form_errors(form.homePhone) }}
+                    <td width="28%">                        
+                        {{ form_errors(form.email.second) }}
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        Email Confirm *
+                        Home Phone *
                     </td>
-                    <td>
-                        {{ form_widget(form.email.second, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
+                    <td>                        
+                        {{ form_widget(form.homePhone, {'required': false, 'attr': {'style': 'width: 150px;'}}) }}
                     </td>
                     <td>
                         Cell Phone
@@ -131,7 +131,7 @@
                     <td width="18%">  
                     </td>
                     <td width="34%" >
-                        {{ form_errors(form.email.second) }}
+                        {{ form_errors(form.homePhone) }}
                     </td>
                     <td width="18%">
                     </td>
