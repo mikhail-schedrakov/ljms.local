@@ -176,7 +176,7 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
             // add_user
             if ($pathinfo === '/admin/system_users/add_user') {
-                return array (  '_controller' => 'Umbrella\\AdminBundle\\Controller\\SystemUsersController::add_userAction',  '_route' => 'add_user',);
+                return array (  '_controller' => 'Umbrella\\AdminBundle\\Controller\\SystemUsersController::addUserAction',  '_route' => 'add_user',);
             }
 
         }

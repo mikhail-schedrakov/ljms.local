@@ -1,10 +1,25 @@
 <?php
 
-namespace Acme\AccountBundle\Form\Model;
+namespace Umbrella\AdminBundle\Form\Model;
 
-use Acme\AccountBundle\Entity\Profile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Umbrella\AdminBundle\Entity\Profile;
 
-class Registration
+class AddSystemUser
 {
-    protected $profile;    
+    /**
+     * @Assert\Type(type="Umbrella\AdminBundle\Entity\Profile")
+     * @Assert\Valid()
+     */
+     protected $profile;
+
+     public function setProfile(Profile $profile)
+     {
+        $this->profile = $profile;   
+     }
+
+     public function getProfile()
+     {
+        return $this->profile;
+     }
 }

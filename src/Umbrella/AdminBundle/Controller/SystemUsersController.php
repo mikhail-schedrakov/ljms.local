@@ -9,6 +9,9 @@ use Umbrella\AdminBundle\Entity\Profile;
 use Umbrella\AdminBundle\Entity\AltContact;
 use Umbrella\AdminBundle\Entity\Address;
 use Umbrella\AdminBundle\Form\Type\AddUserType;
+use Umbrella\AdminBundle\Form\Model\AddSystemUser;
+
+
 
 class SystemUsersController extends Controller
 {
@@ -17,41 +20,31 @@ class SystemUsersController extends Controller
         return $this->render('UmbrellaAdminBundle:Pages:systemUsers.html.twig');
     }
 
-    public function add_userAction(Request $request)
+    public function addUserAction(Request $request)
     {
-        $profile = new Profile();
+        $addUser = new AddSystemUser();
 
-        // Create profile form
-        $form = $this->createForm(new AddUserType(), $profile);
+        $form = $this->createForm(new AddUserType(), $addUser);
 
-        // Handling request from contacts page
         $form->handleRequest($request);
 
-        // Valid form
-        if ( ! $form->isValid())
-        {
-            // Render contacts page whidth valid errors   
-            $content = $this->renderView('UmbrellaAdminBundle:Pages:addUser.html.twig', array(
-                'form' => $form->createView(),                
-            ));
-
-            return new Response($content);
+        if ( ! $form->isValid()) {
+            return $this->render(
+                'UmbrellaAdminBundle:Pages:addUser.html.twig',
+                array('form' => $form->createView())
+            );
         }
         else
-        { 
-            $data = $form->getData();
+        {
+            $addUser = $form->getData();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($data);
+            $em = $this->getDoctrine()->getEntityManager();   
+            $em->persist($addUser->getProfile());
             $em->flush();
-
-            // show message on auth page
-            $this->get('session')->getFlashBag()->add(
-                'msg',
-                'New user was added successfully.'
-            );
-
-            return $this->redirect($this->generateURL('system_users'));    
+            
+            return new Response('add user');
         }
+        
+
     }
 }

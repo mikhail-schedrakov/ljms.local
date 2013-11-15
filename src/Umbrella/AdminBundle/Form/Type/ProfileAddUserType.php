@@ -23,11 +23,11 @@ class ProfileAddUserType extends AbstractType
                'type'            => 'password',
                'invalid_message' => 'Password values ​​are not match.',
             ))
-            ->add('firstName', 'text')
-            ->add('lastName', 'text')
-            ->add('homePhone', 'text')
-            ->add('cellPhone', 'text')
-            ->add('altPhone', 'text');    
+            ->add('firstName')
+            ->add('lastName')
+            ->add('homePhone')
+            ->add('cellPhone')
+            ->add('altPhone');    
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
