@@ -161,9 +161,7 @@
     <parameter key="validator.mapping.loader.xml_files_loader.mapping_files" type="collection">
       <parameter>/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</parameter>
     </parameter>
-    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection">
-      <parameter>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml</parameter>
-    </parameter>
+    <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection"/>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="fragment.listener.class">Symfony\Component\HttpKernel\EventListener\FragmentListener</parameter>
     <parameter key="profiler.class">Symfony\Component\HttpKernel\Profiler\Profiler</parameter>
@@ -1351,6 +1349,11 @@
         <service class="Symfony\Component\Validator\Mapping\Loader\LoaderChain" public="false">
           <argument type="collection">
             <argument type="service">
+              <service class="Symfony\Component\Validator\Mapping\Loader\AnnotationLoader" public="false">
+                <argument type="service" id="annotation_reader"/>
+              </service>
+            </argument>
+            <argument type="service">
               <service class="Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader" public="false"/>
             </argument>
             <argument type="service">
@@ -1362,9 +1365,7 @@
             </argument>
             <argument type="service">
               <service class="Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader" public="false">
-                <argument type="collection">
-                  <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml</argument>
-                </argument>
+                <argument type="collection"/>
               </service>
             </argument>
           </argument>
@@ -1601,7 +1602,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>528380cfc3e32</argument>
+            <argument>5285dec4b1413</argument>
           </service>
         </argument>
       </argument>
@@ -1868,7 +1869,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>528380cfc3e32</argument>
+            <argument>5285dec4b1413</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           </service>
         </argument>
@@ -2282,6 +2283,7 @@
         <service class="Doctrine\ORM\Configuration" public="false">
           <call method="setEntityNamespaces">
             <argument type="collection">
+              <argument key="UmbrellaFrontendBundle">Umbrella\FrontendBundle\Entity</argument>
               <argument key="UmbrellaAdminBundle">Umbrella\AdminBundle\Entity</argument>
             </argument>
           </call>
@@ -2317,13 +2319,24 @@
               <service class="Doctrine\ORM\Mapping\Driver\DriverChain" public="false">
                 <call method="addDriver">
                   <argument type="service">
-                    <service class="Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver" public="false">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
                       <argument type="collection">
-                        <argument key="/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/doctrine">Umbrella\AdminBundle\Entity</argument>
+                        <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Entity</argument>
+                        <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Entity</argument>
                       </argument>
-                      <call method="setGlobalBasename">
-                        <argument>mapping</argument>
-                      </call>
+                    </service>
+                  </argument>
+                  <argument>Umbrella\FrontendBundle\Entity</argument>
+                </call>
+                <call method="addDriver">
+                  <argument type="service">
+                    <service class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
+                      <argument type="service" id="annotation_reader"/>
+                      <argument type="collection">
+                        <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Entity</argument>
+                        <argument>/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Entity</argument>
+                      </argument>
                     </service>
                   </argument>
                   <argument>Umbrella\AdminBundle\Entity</argument>

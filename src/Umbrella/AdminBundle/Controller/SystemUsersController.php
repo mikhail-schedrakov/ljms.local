@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Umbrella\AdminBundle\Entity\Profile;
+use Umbrella\AdminBundle\Entity\AltContact;
+use Umbrella\AdminBundle\Entity\Address;
 use Umbrella\AdminBundle\Form\Type\AddUserType;
 
 class SystemUsersController extends Controller
@@ -17,9 +19,8 @@ class SystemUsersController extends Controller
 
     public function add_userAction(Request $request)
     {
-        // New Profile object       
         $profile = new Profile();
-        
+
         // Create profile form
         $form = $this->createForm(new AddUserType(), $profile);
 
@@ -27,19 +28,21 @@ class SystemUsersController extends Controller
         $form->handleRequest($request);
 
         // Valid form
-        if (! $form->isValid())
+        if ( ! $form->isValid())
         {
             // Render contacts page whidth valid errors   
             $content = $this->renderView('UmbrellaAdminBundle:Pages:addUser.html.twig', array(
-                'form' => $form->createView()
+                'form' => $form->createView(),                
             ));
 
             return new Response($content);
         }
         else
         { 
+            $data = $form->getData();
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($profile);
+            $em->persist($data);
             $em->flush();
 
             // show message on auth page
@@ -49,6 +52,6 @@ class SystemUsersController extends Controller
             );
 
             return $this->redirect($this->generateURL('system_users'));    
-        }        
+        }
     }
 }

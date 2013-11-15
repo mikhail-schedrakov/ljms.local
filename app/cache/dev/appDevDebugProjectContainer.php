@@ -628,8 +628,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getDoctrine_Orm_DefaultEntityManagerService()
     {
-        $a = new \Doctrine\Common\Cache\ArrayCache();
-        $a->setNamespace('sf2orm_default_987d30bceac3a69d3126147ca61a9329');
+        $a = $this->get('annotation_reader');
 
         $b = new \Doctrine\Common\Cache\ArrayCache();
         $b->setNamespace('sf2orm_default_987d30bceac3a69d3126147ca61a9329');
@@ -637,26 +636,29 @@ class appDevDebugProjectContainer extends Container
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_987d30bceac3a69d3126147ca61a9329');
 
-        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/doctrine' => 'Umbrella\\AdminBundle\\Entity'));
-        $d->setGlobalBasename('mapping');
+        $d = new \Doctrine\Common\Cache\ArrayCache();
+        $d->setNamespace('sf2orm_default_987d30bceac3a69d3126147ca61a9329');
 
-        $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
-        $e->addDriver($d, 'Umbrella\\AdminBundle\\Entity');
+        $e = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Entity', 1 => '/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Entity'));
 
-        $f = new \Doctrine\ORM\Configuration();
-        $f->setEntityNamespaces(array('UmbrellaAdminBundle' => 'Umbrella\\AdminBundle\\Entity'));
-        $f->setMetadataCacheImpl($a);
-        $f->setQueryCacheImpl($b);
-        $f->setResultCacheImpl($c);
-        $f->setMetadataDriverImpl($e);
-        $f->setProxyDir('/home/mikhail/lamp/ljms.local/app/cache/dev/doctrine/orm/Proxies');
-        $f->setProxyNamespace('Proxies');
-        $f->setAutoGenerateProxyClasses(true);
-        $f->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
-        $f->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
-        $f->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+        $f = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+        $f->addDriver($e, 'Umbrella\\FrontendBundle\\Entity');
+        $f->addDriver($e, 'Umbrella\\AdminBundle\\Entity');
 
-        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $f);
+        $g = new \Doctrine\ORM\Configuration();
+        $g->setEntityNamespaces(array('UmbrellaFrontendBundle' => 'Umbrella\\FrontendBundle\\Entity', 'UmbrellaAdminBundle' => 'Umbrella\\AdminBundle\\Entity'));
+        $g->setMetadataCacheImpl($b);
+        $g->setQueryCacheImpl($c);
+        $g->setResultCacheImpl($d);
+        $g->setMetadataDriverImpl($f);
+        $g->setProxyDir('/home/mikhail/lamp/ljms.local/app/cache/dev/doctrine/orm/Proxies');
+        $g->setProxyNamespace('Proxies');
+        $g->setAutoGenerateProxyClasses(true);
+        $g->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
+        $g->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
+        $g->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+
+        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $g);
 
         $this->get('doctrine.orm.default_manager_configurator')->configure($instance);
 
@@ -2022,7 +2024,7 @@ class appDevDebugProjectContainer extends Container
         $l = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($j, array('login_path' => 'login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
         $l->setProviderKey('secured_area');
 
-        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($i, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'secured_area', $a, $c), 2 => $k, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $j, 'secured_area', $l, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $j, array('login_path' => 'login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => 'login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '528380cfc3e32', $a), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $i, $f)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $j, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $j, 'login', false), NULL, NULL, $a));
+        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($i, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'secured_area', $a, $c), 2 => $k, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $j, 'secured_area', $l, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $j, array('login_path' => 'login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => 'login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5285dec4b1413', $a), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $i, $f)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $j, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $j, 'login', false), NULL, NULL, $a));
     }
 
     /**
@@ -3323,7 +3325,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('528380cfc3e32')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5285dec4b1413')), true);
 
         $instance->setEventDispatcher($this->get('event_dispatcher'));
 
@@ -3451,7 +3453,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 1 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 2 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml')))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL);
     }
 
     /**
@@ -3672,7 +3674,7 @@ class appDevDebugProjectContainer extends Container
                 0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
-                0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml',
+
             ),
             'validator.translation_domain' => 'validators',
             'fragment.listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\FragmentListener',

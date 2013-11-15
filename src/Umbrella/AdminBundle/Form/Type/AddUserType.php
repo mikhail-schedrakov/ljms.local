@@ -10,6 +10,11 @@ class AddUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // $builder->add('profile', new ProfileAddUserType());
+        // $builder->add('address', new AddressType());
+        // $builder->add('altContact', new AltContactType());
+        // $builder->add('save', 'submit');
+
         $builder
             ->add('email', 'repeated', array(
                 'first_name'        => 'first',
@@ -27,19 +32,19 @@ class AddUserType extends AbstractType
             ->add('lastName', 'text')
             ->add('homePhone', 'text')
             ->add('cellPhone', 'text')
-            ->add('altPhone', 'text')
+            ->add('altPhone', 'text');
             ->add('save', 'submit');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Umbrella\AdminBundle\Entity\Profile'
+            // 'validation_groups' => array('addUser'),
         ));
     }
 
     public function getName()
     {
-        return 'profile';
+        return 'addUser';
     }
 }

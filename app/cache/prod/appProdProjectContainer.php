@@ -25,6 +25,9 @@ class appProdProjectContainer extends Container
             'assetic.asset_manager' => 'getAssetic_AssetManagerService',
             'assetic.filter.cssrewrite' => 'getAssetic_Filter_CssrewriteService',
             'assetic.filter_manager' => 'getAssetic_FilterManagerService',
+            'bazinga.exposetranslation.controller' => 'getBazinga_Exposetranslation_ControllerService',
+            'bazinga.exposetranslation.dumper.translation_dumper' => 'getBazinga_Exposetranslation_Dumper_TranslationDumperService',
+            'bazinga.exposetranslation.finder.translation_finder' => 'getBazinga_Exposetranslation_Finder_TranslationFinderService',
             'cache_clearer' => 'getCacheClearerService',
             'cache_warmer' => 'getCacheWarmerService',
             'controller_name_converter' => 'getControllerNameConverterService',
@@ -80,7 +83,9 @@ class appProdProjectContainer extends Container
             'form.type_extension.form.http_foundation' => 'getForm_TypeExtension_Form_HttpFoundationService',
             'form.type_extension.form.validator' => 'getForm_TypeExtension_Form_ValidatorService',
             'form.type_extension.repeated.validator' => 'getForm_TypeExtension_Repeated_ValidatorService',
+            'form.type_extension.repeated_field_parameters' => 'getForm_TypeExtension_RepeatedFieldParametersService',
             'form.type_extension.submit.validator' => 'getForm_TypeExtension_Submit_ValidatorService',
+            'form.type_extension.validation_groups' => 'getForm_TypeExtension_ValidationGroupsService',
             'form.type_guesser.doctrine' => 'getForm_TypeGuesser_DoctrineService',
             'form.type_guesser.validator' => 'getForm_TypeGuesser_ValidatorService',
             'fragment.handler' => 'getFragment_HandlerService',
@@ -88,7 +93,12 @@ class appProdProjectContainer extends Container
             'fragment.renderer.hinclude' => 'getFragment_Renderer_HincludeService',
             'fragment.renderer.inline' => 'getFragment_Renderer_InlineService',
             'http_kernel' => 'getHttpKernelService',
+            'jsfv.controller' => 'getJsfv_ControllerService',
+            'jsfv.generator' => 'getJsfv_GeneratorService',
+            'jsfv.repeated_field_listener' => 'getJsfv_RepeatedFieldListenerService',
+            'jsfv.validation_groups_listener' => 'getJsfv_ValidationGroupsListenerService',
             'kernel' => 'getKernelService',
+            'kernel.cache_warmer.jsformvalidation' => 'getKernel_CacheWarmer_JsformvalidationService',
             'locale_listener' => 'getLocaleListenerService',
             'logger' => 'getLoggerService',
             'monolog.handler.main' => 'getMonolog_Handler_MainService',
@@ -111,8 +121,6 @@ class appProdProjectContainer extends Container
             'security.context' => 'getSecurity_ContextService',
             'security.encoder_factory' => 'getSecurity_EncoderFactoryService',
             'security.firewall' => 'getSecurity_FirewallService',
-            'security.firewall.map.context.dev' => 'getSecurity_Firewall_Map_Context_DevService',
-            'security.firewall.map.context.login' => 'getSecurity_Firewall_Map_Context_LoginService',
             'security.firewall.map.context.secured_area' => 'getSecurity_Firewall_Map_Context_SecuredAreaService',
             'security.rememberme.response_listener' => 'getSecurity_Rememberme_ResponseListenerService',
             'security.secure_random' => 'getSecurity_SecureRandomService',
@@ -187,6 +195,7 @@ class appProdProjectContainer extends Container
             'twig' => 'getTwigService',
             'twig.controller.exception' => 'getTwig_Controller_ExceptionService',
             'twig.exception_listener' => 'getTwig_ExceptionListenerService',
+            'twig.extension.jsformvalidation' => 'getTwig_Extension_JsformvalidationService',
             'twig.loader' => 'getTwig_LoaderService',
             'twig.translation.extractor' => 'getTwig_Translation_ExtractorService',
             'uri_signer' => 'getUriSignerService',
@@ -196,6 +205,7 @@ class appProdProjectContainer extends Container
         $this->aliases = array(
             'database_connection' => 'doctrine.dbal.default_connection',
             'doctrine.orm.entity_manager' => 'doctrine.orm.default_entity_manager',
+            'jsfv' => 'jsfv.generator',
             'mailer' => 'swiftmailer.mailer.default',
             'session.storage' => 'session.storage.native',
             'swiftmailer.mailer' => 'swiftmailer.mailer.default',
@@ -222,6 +232,44 @@ class appProdProjectContainer extends Container
     {
         return $this->services['assetic.filter_manager'] = new \Symfony\Bundle\AsseticBundle\FilterManager($this, array('cssrewrite' => 'assetic.filter.cssrewrite'));
     }
+    protected function getBazinga_Exposetranslation_ControllerService()
+    {
+        $a = $this->get('translation.loader.xliff');
+        $this->services['bazinga.exposetranslation.controller'] = $instance = new \Bazinga\ExposeTranslationBundle\Controller\Controller($this->get('translator'), $this->get('templating'), $this->get('bazinga.exposetranslation.finder.translation_finder'), '/home/mikhail/lamp/ljms.local/app/cache/prod/bazinga_expose_translation', false, '', array(0 => 'messages'));
+        $instance->addLoader('php', $this->get('translation.loader.php'));
+        $instance->addLoader('yml', $this->get('translation.loader.yml'));
+        $instance->addLoader('xlf', $a);
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('po', $this->get('translation.loader.po'));
+        $instance->addLoader('mo', $this->get('translation.loader.mo'));
+        $instance->addLoader('ts', $this->get('translation.loader.qt'));
+        $instance->addLoader('csv', $this->get('translation.loader.csv'));
+        $instance->addLoader('res', $this->get('translation.loader.res'));
+        $instance->addLoader('dat', $this->get('translation.loader.dat'));
+        $instance->addLoader('ini', $this->get('translation.loader.ini'));
+        return $instance;
+    }
+    protected function getBazinga_Exposetranslation_Dumper_TranslationDumperService()
+    {
+        $a = $this->get('translation.loader.xliff');
+        $this->services['bazinga.exposetranslation.dumper.translation_dumper'] = $instance = new \Bazinga\ExposeTranslationBundle\Dumper\TranslationDumper($this->get('kernel'), $this->get('templating'), $this->get('bazinga.exposetranslation.finder.translation_finder'), $this->get('router'), $this->get('filesystem'));
+        $instance->addLoader('php', $this->get('translation.loader.php'));
+        $instance->addLoader('yml', $this->get('translation.loader.yml'));
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('xliff', $a);
+        $instance->addLoader('po', $this->get('translation.loader.po'));
+        $instance->addLoader('mo', $this->get('translation.loader.mo'));
+        $instance->addLoader('qt', $this->get('translation.loader.qt'));
+        $instance->addLoader('csv', $this->get('translation.loader.csv'));
+        $instance->addLoader('res', $this->get('translation.loader.res'));
+        $instance->addLoader('dat', $this->get('translation.loader.dat'));
+        $instance->addLoader('ini', $this->get('translation.loader.ini'));
+        return $instance;
+    }
+    protected function getBazinga_Exposetranslation_Finder_TranslationFinderService()
+    {
+        return $this->services['bazinga.exposetranslation.finder.translation_finder'] = new \Bazinga\ExposeTranslationBundle\Finder\TranslationFinder($this->get('kernel'));
+    }
     protected function getCacheClearerService()
     {
         return $this->services['cache_clearer'] = new \Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer(array());
@@ -231,7 +279,7 @@ class appProdProjectContainer extends Container
         $a = $this->get('kernel');
         $b = $this->get('templating.filename_parser');
         $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, '/home/mikhail/lamp/ljms.local/app/Resources');
-        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine'))));
+        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => new \Symfony\Bundle\AsseticBundle\CacheWarmer\AssetManagerCacheWarmer($this), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 3 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c), 4 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine')), 5 => $this->get('kernel.cache_warmer.jsformvalidation')));
     }
     protected function getDebug_EmergencyLoggerListenerService()
     {
@@ -247,7 +295,7 @@ class appProdProjectContainer extends Container
     }
     protected function getDoctrine_Dbal_DefaultConnectionService()
     {
-        return $this->services['doctrine.dbal.default_connection'] = $this->get('doctrine.dbal.connection_factory')->createConnection(array('dbname' => 'symfony', 'host' => '127.0.0.1', 'port' => NULL, 'user' => 'root', 'password' => NULL, 'charset' => 'UTF8', 'driver' => 'pdo_mysql', 'driverOptions' => array()), new \Doctrine\DBAL\Configuration(), new \Symfony\Bridge\Doctrine\ContainerAwareEventManager($this), array());
+        return $this->services['doctrine.dbal.default_connection'] = $this->get('doctrine.dbal.connection_factory')->createConnection(array('dbname' => 'ljms', 'host' => '127.0.0.1', 'port' => NULL, 'user' => 'root', 'password' => 123, 'charset' => 'UTF8', 'driver' => 'pdo_mysql', 'driverOptions' => array()), new \Doctrine\DBAL\Configuration(), new \Symfony\Bridge\Doctrine\ContainerAwareEventManager($this), array());
     }
     protected function getDoctrine_Orm_DefaultEntityManagerService()
     {
@@ -257,19 +305,24 @@ class appProdProjectContainer extends Container
         $b->setNamespace('sf2orm_default_6e64d082fe5fc6009d88f14d77b5087c');
         $c = new \Doctrine\Common\Cache\ArrayCache();
         $c->setNamespace('sf2orm_default_6e64d082fe5fc6009d88f14d77b5087c');
-        $d = new \Doctrine\ORM\Configuration();
-        $d->setEntityNamespaces(array());
-        $d->setMetadataCacheImpl($a);
-        $d->setQueryCacheImpl($b);
-        $d->setResultCacheImpl($c);
-        $d->setMetadataDriverImpl(new \Doctrine\ORM\Mapping\Driver\DriverChain());
-        $d->setProxyDir('/home/mikhail/lamp/ljms.local/app/cache/prod/doctrine/orm/Proxies');
-        $d->setProxyNamespace('Proxies');
-        $d->setAutoGenerateProxyClasses(false);
-        $d->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
-        $d->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
-        $d->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
-        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $d);
+        $d = new \Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver(array('/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/doctrine' => 'Umbrella\\AdminBundle\\Entity'));
+        $d->setGlobalBasename('mapping');
+        $e = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+        $e->addDriver(new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($this->get('annotation_reader'), array(0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Entity')), 'Umbrella\\FrontendBundle\\Entity');
+        $e->addDriver($d, 'Umbrella\\AdminBundle\\Entity');
+        $f = new \Doctrine\ORM\Configuration();
+        $f->setEntityNamespaces(array('UmbrellaFrontendBundle' => 'Umbrella\\FrontendBundle\\Entity', 'UmbrellaAdminBundle' => 'Umbrella\\AdminBundle\\Entity'));
+        $f->setMetadataCacheImpl($a);
+        $f->setQueryCacheImpl($b);
+        $f->setResultCacheImpl($c);
+        $f->setMetadataDriverImpl($e);
+        $f->setProxyDir('/home/mikhail/lamp/ljms.local/app/cache/prod/doctrine/orm/Proxies');
+        $f->setProxyNamespace('Proxies');
+        $f->setAutoGenerateProxyClasses(false);
+        $f->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
+        $f->setDefaultRepositoryClassName('Doctrine\\ORM\\EntityRepository');
+        $f->setNamingStrategy(new \Doctrine\ORM\Mapping\DefaultNamingStrategy());
+        $this->services['doctrine.orm.default_entity_manager'] = $instance = call_user_func(array('Doctrine\\ORM\\EntityManager', 'create'), $this->get('doctrine.dbal.default_connection'), $f);
         $this->get('doctrine.orm.default_manager_configurator')->configure($instance);
         return $instance;
     }
@@ -288,6 +341,8 @@ class appProdProjectContainer extends Container
     protected function getEventDispatcherService()
     {
         $this->services['event_dispatcher'] = $instance = new \Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher($this);
+        $instance->addListenerService('jsfv.pre_process', array(0 => 'jsfv.validation_groups_listener', 1 => 'onJsfvPreProcess'), 0);
+        $instance->addListenerService('jsfv.post_process', array(0 => 'jsfv.repeated_field_listener', 1 => 'onJsfvPostProcess'), 0);
         $instance->addSubscriberService('response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener');
         $instance->addSubscriberService('streamed_response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\StreamedResponseListener');
         $instance->addSubscriberService('locale_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\LocaleListener');
@@ -323,7 +378,7 @@ class appProdProjectContainer extends Container
     }
     protected function getForm_CsrfProviderService()
     {
-        return $this->services['form.csrf_provider'] = new \Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider($this->get('session'), 'ThisTokenIsNotSoSecretChangeIt');
+        return $this->services['form.csrf_provider'] = new \Symfony\Component\Form\Extension\Csrf\CsrfProvider\SessionCsrfProvider($this->get('session'), 'qwerty');
     }
     protected function getForm_FactoryService()
     {
@@ -331,7 +386,7 @@ class appProdProjectContainer extends Container
     }
     protected function getForm_RegistryService()
     {
-        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity', 'ewz_recaptcha' => 'ewz_recaptcha.form.type'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf'), 'repeated' => array(0 => 'form.type_extension.repeated.validator'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
+        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'birthday' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'collection' => 'form.type.collection', 'country' => 'form.type.country', 'date' => 'form.type.date', 'datetime' => 'form.type.datetime', 'email' => 'form.type.email', 'file' => 'form.type.file', 'hidden' => 'form.type.hidden', 'integer' => 'form.type.integer', 'language' => 'form.type.language', 'locale' => 'form.type.locale', 'money' => 'form.type.money', 'number' => 'form.type.number', 'password' => 'form.type.password', 'percent' => 'form.type.percent', 'radio' => 'form.type.radio', 'repeated' => 'form.type.repeated', 'search' => 'form.type.search', 'textarea' => 'form.type.textarea', 'text' => 'form.type.text', 'time' => 'form.type.time', 'timezone' => 'form.type.timezone', 'url' => 'form.type.url', 'button' => 'form.type.button', 'submit' => 'form.type.submit', 'reset' => 'form.type.reset', 'currency' => 'form.type.currency', 'entity' => 'form.type.entity', 'ewz_recaptcha' => 'ewz_recaptcha.form.type'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf', 3 => 'form.type_extension.validation_groups'), 'repeated' => array(0 => 'form.type_extension.repeated.validator', 1 => 'form.type_extension.repeated_field_parameters'), 'submit' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
     }
     protected function getForm_ResolvedTypeFactoryService()
     {
@@ -477,9 +532,19 @@ class appProdProjectContainer extends Container
     {
         return $this->services['form.type_extension.repeated.validator'] = new \Symfony\Component\Form\Extension\Validator\Type\RepeatedTypeValidatorExtension();
     }
+    protected function getForm_TypeExtension_RepeatedFieldParametersService()
+    {
+        return $this->services['form.type_extension.repeated_field_parameters'] = new \APY\JsFormValidationBundle\Form\Extension\RepeatedTypeExtension();
+    }
     protected function getForm_TypeExtension_Submit_ValidatorService()
     {
         return $this->services['form.type_extension.submit.validator'] = new \Symfony\Component\Form\Extension\Validator\Type\SubmitTypeValidatorExtension();
+    }
+    protected function getForm_TypeExtension_ValidationGroupsService()
+    {
+        $this->services['form.type_extension.validation_groups'] = $instance = new \APY\JsFormValidationBundle\Form\Extension\FormTypeExtension();
+        $instance->setJsfv($this->get('jsfv.generator'));
+        return $instance;
     }
     protected function getForm_TypeGuesser_DoctrineService()
     {
@@ -517,9 +582,29 @@ class appProdProjectContainer extends Container
     {
         return $this->services['http_kernel'] = new \Symfony\Component\HttpKernel\DependencyInjection\ContainerAwareHttpKernel($this->get('event_dispatcher'), $this, new \Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver($this, $this->get('controller_name_converter'), $this->get('monolog.logger.request', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
     }
+    protected function getJsfv_ControllerService()
+    {
+        return $this->services['jsfv.controller'] = new \APY\JsFormValidationBundle\Controller\Controller($this);
+    }
+    protected function getJsfv_GeneratorService()
+    {
+        return $this->services['jsfv.generator'] = new \APY\JsFormValidationBundle\Generator\FormValidationScriptGenerator($this);
+    }
+    protected function getJsfv_RepeatedFieldListenerService()
+    {
+        return $this->services['jsfv.repeated_field_listener'] = new \APY\JsFormValidationBundle\EventListener\RepeatedFieldListener();
+    }
+    protected function getJsfv_ValidationGroupsListenerService()
+    {
+        return $this->services['jsfv.validation_groups_listener'] = new \APY\JsFormValidationBundle\EventListener\ValidationGroupsListener();
+    }
     protected function getKernelService()
     {
         throw new RuntimeException('You have requested a synthetic service ("kernel"). The DIC does not know how to construct this service.');
+    }
+    protected function getKernel_CacheWarmer_JsformvalidationService()
+    {
+        return $this->services['kernel.cache_warmer.jsformvalidation'] = new \APY\JsFormValidationBundle\CacheWarmer\JsFormValidationCacheWarmer($this);
     }
     protected function getLocaleListenerService()
     {
@@ -620,15 +705,7 @@ class appProdProjectContainer extends Container
     }
     protected function getSecurity_FirewallService()
     {
-        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.dev' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/'), 'security.firewall.map.context.login' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/demo/secured/login$'), 'security.firewall.map.context.secured_area' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/demo/secured/'))), $this->get('event_dispatcher'));
-    }
-    protected function getSecurity_Firewall_Map_Context_DevService()
-    {
-        return $this->services['security.firewall.map.context.dev'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(), NULL);
-    }
-    protected function getSecurity_Firewall_Map_Context_LoginService()
-    {
-        return $this->services['security.firewall.map.context.login'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(), NULL);
+        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.secured_area' => new \Symfony\Component\HttpFoundation\RequestMatcher('^(/admin/.*|/login_check|/logout)'))), $this->get('event_dispatcher'));
     }
     protected function getSecurity_Firewall_Map_Context_SecuredAreaService()
     {
@@ -638,15 +715,17 @@ class appProdProjectContainer extends Container
         $d = $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE);
         $e = $this->get('http_kernel');
         $f = $this->get('security.authentication.manager');
-        $g = new \Symfony\Component\HttpFoundation\RequestMatcher('^/demo/secured/hello/admin/');
-        $h = new \Symfony\Component\Security\Http\AccessMap();
-        $h->add($g, array(0 => 'ROLE_ADMIN'), NULL);
-        $i = new \Symfony\Component\Security\Http\HttpUtils($d, $d);
-        $j = new \Symfony\Component\Security\Http\Firewall\LogoutListener($b, $i, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($i, '_demo'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => '_demo_logout'));
-        $j->addHandler(new \Symfony\Component\Security\Http\Logout\SessionLogoutHandler());
-        $k = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($i, array('login_path' => '_demo_login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
-        $k->setProviderKey('secured_area');
-        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($h, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'secured_area', $a, $c), 2 => $j, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $i, 'secured_area', $k, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $i, array('login_path' => '_demo_login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => '_security_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $h, $f)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $i, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $i, '_demo_login', false), NULL, NULL, $a));
+        $g = new \Symfony\Component\HttpFoundation\RequestMatcher('^/admin/.*');
+        $h = new \Symfony\Component\HttpFoundation\RequestMatcher('^/frontend.*');
+        $i = new \Symfony\Component\Security\Http\AccessMap();
+        $i->add($g, array(0 => 'ROLE_ADMIN'), NULL);
+        $i->add($h, array(0 => 'ROLE_USER'), 'http');
+        $j = new \Symfony\Component\Security\Http\HttpUtils($d, $d);
+        $k = new \Symfony\Component\Security\Http\Firewall\LogoutListener($b, $j, new \Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler($j, 'home'), array('csrf_parameter' => '_csrf_token', 'intention' => 'logout', 'logout_path' => 'logout'));
+        $k->addHandler(new \Symfony\Component\Security\Http\Logout\SessionLogoutHandler());
+        $l = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($j, array('login_path' => 'login', 'always_use_default_target_path' => false, 'default_target_path' => '/', 'target_path_parameter' => '_target_path', 'use_referer' => false));
+        $l->setProviderKey('secured_area');
+        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($i, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'secured_area', $a, $c), 2 => $k, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $f, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $j, 'secured_area', $l, new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $j, array('login_path' => 'login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'), $a), array('check_path' => 'login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'intention' => 'authenticate', 'post_only' => true), $a, $c), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5284a18baf974', $a), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $i, $f)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), $j, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $j, 'login', false), NULL, NULL, $a));
     }
     protected function getSecurity_Rememberme_ResponseListenerService()
     {
@@ -799,7 +878,7 @@ class appProdProjectContainer extends Container
     protected function getTemplating_Helper_LogoutUrlService()
     {
         $this->services['templating.helper.logout_url'] = $instance = new \Symfony\Bundle\SecurityBundle\Templating\Helper\LogoutUrlHelper($this, $this->get('router'));
-        $instance->registerListener('secured_area', '_demo_logout', 'logout', '_csrf_token', NULL);
+        $instance->registerListener('secured_area', 'logout', 'logout', '_csrf_token', NULL);
         return $instance;
     }
     protected function getTemplating_Helper_RequestService()
@@ -975,6 +1054,7 @@ class appProdProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\FormExtension(new \Symfony\Bridge\Twig\Form\TwigRenderer(new \Symfony\Bridge\Twig\Form\TwigRendererEngine(array(0 => 'form_div_layout.html.twig', 1 => 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig')), $this->get('form.csrf_provider', ContainerInterface::NULL_ON_INVALID_REFERENCE))));
         $instance->addExtension(new \Symfony\Bundle\AsseticBundle\Twig\AsseticExtension($this->get('assetic.asset_factory'), $this->get('templating.name_parser'), false, array(), array(), new \Symfony\Bundle\AsseticBundle\DefaultValueSupplier($this)));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
+        $instance->addExtension($this->get('twig.extension.jsformvalidation'));
         $instance->addGlobal('app', $this->get('templating.globals'));
         return $instance;
     }
@@ -986,6 +1066,10 @@ class appProdProjectContainer extends Container
     {
         return $this->services['twig.exception_listener'] = new \Symfony\Component\HttpKernel\EventListener\ExceptionListener('twig.controller.exception:showAction', $this->get('monolog.logger.request', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
+    protected function getTwig_Extension_JsformvalidationService()
+    {
+        return $this->services['twig.extension.jsformvalidation'] = new \APY\JsFormValidationBundle\Twig\Extension\JsFormValidationTwigExtension($this);
+    }
     protected function getTwig_LoaderService()
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
@@ -996,6 +1080,10 @@ class appProdProjectContainer extends Container
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views', 'Doctrine');
         $instance->addPath('/home/mikhail/lamp/ljms.local/src/Umbrella/FrontendBundle/Resources/views', 'UmbrellaFrontend');
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/excelwebzone/recaptcha-bundle/EWZ/Bundle/RecaptchaBundle/Resources/views', 'EWZRecaptcha');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/apy/jsfv-bundle/APY/JsFormValidationBundle/Resources/views', 'APYJsFormValidation');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/willdurand/expose-translation-bundle/Bazinga/ExposeTranslationBundle/Resources/views', 'BazingaExposeTranslation');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/views', 'UmbrellaAdmin');
+        $instance->addPath('/home/mikhail/lamp/ljms.local/src/Umbrella/SecurityBundle/Resources/views', 'UmbrellaSecurity');
         $instance->addPath('/home/mikhail/lamp/ljms.local/app/Resources/views');
         $instance->addPath('/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form');
         return $instance;
@@ -1006,7 +1094,7 @@ class appProdProjectContainer extends Container
     }
     protected function getUriSignerService()
     {
-        return $this->services['uri_signer'] = new \Symfony\Component\HttpKernel\UriSigner('ThisTokenIsNotSoSecretChangeIt');
+        return $this->services['uri_signer'] = new \Symfony\Component\HttpKernel\UriSigner('qwerty');
     }
     protected function getValidatorService()
     {
@@ -1038,11 +1126,11 @@ class appProdProjectContainer extends Container
     }
     protected function getSecurity_Access_DecisionManagerService()
     {
-        return $this->services['security.access.decision_manager'] = new \Symfony\Component\Security\Core\Authorization\AccessDecisionManager(array(0 => new \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter(new \Symfony\Component\Security\Core\Role\RoleHierarchy(array('ROLE_ADMIN' => array(0 => 'ROLE_USER'), 'ROLE_SUPER_ADMIN' => array(0 => 'ROLE_USER', 1 => 'ROLE_ADMIN', 2 => 'ROLE_ALLOWED_TO_SWITCH')))), 1 => new \Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter($this->get('security.authentication.trust_resolver'))), 'affirmative', false, true);
+        return $this->services['security.access.decision_manager'] = new \Symfony\Component\Security\Core\Authorization\AccessDecisionManager(array(0 => new \Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter(new \Symfony\Component\Security\Core\Role\RoleHierarchy(array('ROLE_USER' => array(0 => 'IS_AUTHENTICATED_ANONYMOUSLY'), 'ROLE_ADMIN' => array(0 => 'ROLE_USER')))), 1 => new \Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter($this->get('security.authentication.trust_resolver'))), 'affirmative', false, true);
     }
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true)), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), new \Symfony\Component\Security\Core\User\UserChecker(), 'secured_area', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5284a18baf974')), true);
         $instance->setEventDispatcher($this->get('event_dispatcher'));
         return $instance;
     }
@@ -1071,7 +1159,7 @@ class appProdProjectContainer extends Container
     }
     protected function getValidator_Mapping_ClassMetadataFactoryService()
     {
-        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL);
+        return $this->services['validator.mapping.class_metadata_factory'] = new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 1 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 2 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array(0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml')))), NULL);
     }
     public function getParameter($name)
     {
@@ -1103,7 +1191,7 @@ class appProdProjectContainer extends Container
             'kernel.root_dir' => '/home/mikhail/lamp/ljms.local/app',
             'kernel.environment' => 'prod',
             'kernel.debug' => false,
-            'kernel.name' => 'app',
+            'kernel.name' => 'ap_',
             'kernel.cache_dir' => '/home/mikhail/lamp/ljms.local/app/cache/prod',
             'kernel.logs_dir' => '/home/mikhail/lamp/ljms.local/app/logs',
             'kernel.bundles' => array(
@@ -1117,21 +1205,25 @@ class appProdProjectContainer extends Container
                 'SensioFrameworkExtraBundle' => 'Sensio\\Bundle\\FrameworkExtraBundle\\SensioFrameworkExtraBundle',
                 'UmbrellaFrontendBundle' => 'Umbrella\\FrontendBundle\\UmbrellaFrontendBundle',
                 'EWZRecaptchaBundle' => 'EWZ\\Bundle\\RecaptchaBundle\\EWZRecaptchaBundle',
+                'APYJsFormValidationBundle' => 'APY\\JsFormValidationBundle\\APYJsFormValidationBundle',
+                'BazingaExposeTranslationBundle' => 'Bazinga\\ExposeTranslationBundle\\BazingaExposeTranslationBundle',
+                'UmbrellaAdminBundle' => 'Umbrella\\AdminBundle\\UmbrellaAdminBundle',
+                'UmbrellaSecurityBundle' => 'Umbrella\\SecurityBundle\\UmbrellaSecurityBundle',
             ),
             'kernel.charset' => 'UTF-8',
             'kernel.container_class' => 'appProdProjectContainer',
             'database_driver' => 'pdo_mysql',
             'database_host' => '127.0.0.1',
             'database_port' => NULL,
-            'database_name' => 'symfony',
+            'database_name' => 'ljms',
             'database_user' => 'root',
-            'database_password' => NULL,
+            'database_password' => 123,
             'mailer_transport' => 'smtp',
             'mailer_host' => '127.0.0.1',
             'mailer_user' => NULL,
             'mailer_password' => NULL,
             'locale' => 'en',
-            'secret' => 'ThisTokenIsNotSoSecretChangeIt',
+            'secret' => 'qwerty',
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',
             'response_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener',
@@ -1176,7 +1268,7 @@ class appProdProjectContainer extends Container
             'translation.extractor.class' => 'Symfony\\Component\\Translation\\Extractor\\ChainExtractor',
             'translation.writer.class' => 'Symfony\\Component\\Translation\\Writer\\TranslationWriter',
             'debug.errors_logger_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ErrorsLoggerListener',
-            'kernel.secret' => 'ThisTokenIsNotSoSecretChangeIt',
+            'kernel.secret' => 'qwerty',
             'kernel.http_method_override' => true,
             'kernel.trusted_hosts' => array(
             ),
@@ -1250,6 +1342,7 @@ class appProdProjectContainer extends Container
                 0 => '/home/mikhail/lamp/ljms.local/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
+                0 => '/home/mikhail/lamp/ljms.local/src/Umbrella/AdminBundle/Resources/config/validation.yml',
             ),
             'validator.translation_domain' => 'validators',
             'fragment.listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\FragmentListener',
@@ -1349,13 +1442,11 @@ class appProdProjectContainer extends Container
             'security.access.always_authenticate_before_granting' => false,
             'security.authentication.hide_user_not_found' => true,
             'security.role_hierarchy.roles' => array(
+                'ROLE_USER' => array(
+                    0 => 'IS_AUTHENTICATED_ANONYMOUSLY',
+                ),
                 'ROLE_ADMIN' => array(
                     0 => 'ROLE_USER',
-                ),
-                'ROLE_SUPER_ADMIN' => array(
-                    0 => 'ROLE_USER',
-                    1 => 'ROLE_ADMIN',
-                    2 => 'ROLE_ALLOWED_TO_SWITCH',
                 ),
             ),
             'twig.class' => 'Twig_Environment',
@@ -1559,6 +1650,30 @@ class appProdProjectContainer extends Container
             'ewz_recaptcha.secure' => false,
             'ewz_recaptcha.locale_key' => 'kernel.default_locale',
             'ewz_recaptcha.enabled' => true,
+            'apy_js_form_validation.enabled' => true,
+            'apy_js_form_validation.yui_js' => false,
+            'apy_js_form_validation.check_modes' => array(
+                0 => 'submit',
+                1 => 'blur',
+            ),
+            'apy_js_form_validation.script_directory' => 'bundles/jsformvalidation/js/',
+            'apy_js_form_validation.validation_bundle' => 'APYJsFormValidationBundle',
+            'apy_js_form_validation.javascript_framework' => 'jquery',
+            'apy_js_form_validation.warmer_routes' => array(
+            ),
+            'apy_js_form_validation.identifier_field' => 'jsfv_identifier',
+            'apy_js_form_validation.translation_group' => 'validators',
+            'jsfv.generator.class' => 'APY\\JsFormValidationBundle\\Generator\\FormValidationScriptGenerator',
+            'twig.extension.jsformvalidation.class' => 'APY\\JsFormValidationBundle\\Twig\\Extension\\JsFormValidationTwigExtension',
+            'kernel.cache_warmer.jsformvalidation.class' => 'APY\\JsFormValidationBundle\\CacheWarmer\\JsFormValidationCacheWarmer',
+            'form.type_extension.validation_groups.class' => 'APY\\JsFormValidationBundle\\Form\\Extension\\FormTypeExtension',
+            'form.type_extension.repeated_field_parameters.class' => 'APY\\JsFormValidationBundle\\Form\\Extension\\RepeatedTypeExtension',
+            'jsfv.validation_groups_listener.class' => 'APY\\JsFormValidationBundle\\EventListener\\ValidationGroupsListener',
+            'jsfv.repeated_field_listener.class' => 'APY\\JsFormValidationBundle\\EventListener\\RepeatedFieldListener',
+            'jsfv.controller.class' => 'APY\\JsFormValidationBundle\\Controller\\Controller',
+            'bazinga.exposetranslation.finder.translation_finder.class' => 'Bazinga\\ExposeTranslationBundle\\Finder\\TranslationFinder',
+            'bazinga.exposetranslation.dumper.translation_dumper.class' => 'Bazinga\\ExposeTranslationBundle\\Dumper\\TranslationDumper',
+            'bazinga.exposetranslation.controller.class' => 'Bazinga\\ExposeTranslationBundle\\Controller\\Controller',
         );
     }
 }

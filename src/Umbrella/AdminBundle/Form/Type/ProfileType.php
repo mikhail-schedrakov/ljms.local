@@ -28,7 +28,8 @@ class ProfileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Umbrella\AdminBundle\Entity\Profile'
+            'data_class' => 'Umbrella\AdminBundle\Entity\Profile',
+            'validation_groups' => array('changeProfile'),
         ));
     }
 

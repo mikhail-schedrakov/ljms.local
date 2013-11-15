@@ -1,6 +1,4 @@
 {% extends 'UmbrellaFrontendBundle::frontendLayout.html.twig' %}
-{# Customize ReaCaptcha view #}
-{% form_theme form_contact 'EWZRecaptchaBundle:Form:ewz_recaptcha_widget.html.twig' %}
 {# Customize view error fields #}
 {% form_theme form_contact 'UmbrellaFrontendBundle:Form:fields.html.twig' %}
 
@@ -14,63 +12,57 @@
     <p>Phone: (630) 453-0166 (Scott McCarthy)</p><br />
 
     <div class="contact_form">
-        <form action="" method="post" id="form_contact" {{ form_enctype(form_contact) }}>
+        <form action="" method="post" novalidate>
             <table width="100%" border="0" cellspacing="0" cellpadding="0">             
                 
                 {# Name #}
                 <tr>
                     <td width="30%" style="padding-top:3px; padding-bottom:5px;">Your Name * </td>
-                    <td width="70%">{{ form_widget(form_contact.name, {'required': false, 'id': 'name'}) }}</td>
+                    <td width="70%">{{ form_widget(form_contact.name) }}</td>
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="100%" id='msg_err_name' class='msg_err'>{{ form_errors(form_contact.name) }}</td>
+                    <td width="100%" class='msg_err'>{{ form_errors(form_contact.name) }}</td>
                 </tr>
                 {# endName
 
                 {# Email #}
                 <tr>
                     <td width="30%" style="padding-top:3px; padding-bottom:5px;">Your Email * </td>
-                    <td width="70%">{{ form_widget(form_contact.email, {'required': false, 'type': 'text', 'id': 'email'}) }}</td>
+                    <td width="70%">{{ form_widget(form_contact.email, { 'attr': {'type': 'text'}}) }}</td>
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" id='msg_err_email' class='msg_err'>{{ form_errors(form_contact.email) }}</td>
+                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.email) }}</td>
                 </tr>
                 {# endEmail #}
 
                 {# Subject #}
                 <tr>
                     <td width="30%" style="padding-top:3px; padding-bottom:5px;">Subject *</td>
-                    <td width="70%" >{{ form_widget(form_contact.subject, {'required': false, 'id': 'subject'}) }}</td>
+                    <td width="70%" >{{ form_widget(form_contact.subject, {'required': ''}) }}</td>
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" id='msg_err_subject' class='msg_err'>{{ form_errors(form_contact.subject) }}</td>
+                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.subject) }}</td>
                 </tr>
                 {# endSubject #}
 
                 {# Message #}
                 <tr>
                     <td width="30%" valign="top" style="padding-top:5px;">Your Message *</td>                    
-                    <td width="70%" style="padding-top:5px;">{{ form_widget(form_contact.message, {'required': false, 'id': 'message'}) }}</td>
+                    <td width="70%" style="padding-top:5px;">{{ form_widget(form_contact.message, { 'attr': {}}) }}</td>
                 </tr>
                 <tr>
                     <td width="30%"></td>
-                    <td width="70%" id='msg_err_message' class='msg_err'>{{ form_errors(form_contact.message) }}</td>
+                    <td width="70%" class='msg_err'>{{ form_errors(form_contact.message) }}</td>
                 </tr>
                 {# endMessage #}
 
                 {# Recaptcha #}
                 {# <tr>
                     <td width="30%" valign="top" style="padding-top:5px;">You are robot?</td>                    
-                    <td width="70%" style="padding-top:5px;">
-                        {{ form_widget(form_contact.recaptcha, { 'attr': {
-                            'options' : {
-                                'theme' : 'clean',
-                            },
-                        } }) }}
-                    </td>
+                    <td width="70%" style="padding-top:5px;">{{ form_widget(form_contact.recaptcha) }}</td>
                 </tr>
                 <tr>
                     <td width="30%"></td>
