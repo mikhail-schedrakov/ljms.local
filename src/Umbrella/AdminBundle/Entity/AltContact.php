@@ -20,8 +20,8 @@ class AltContact
 
     /**
      * @ORM\OneToOne(targetEntity="Profile")
-     * @ORM\JoinColumn(name="profileID", referencedColumnName="profileID", onDelete="cascade")
-     */  
+     * @ORM\JoinColumn(name="profileID", referencedColumnName="profileID")
+     */
     protected $profileID;
 
     /**

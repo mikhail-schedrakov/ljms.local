@@ -1,1 +1,300 @@
-{{ form(form, { 'attr': {'novalidate': 'novalidate'}}) }}
+{% extends 'UmbrellaAdminBundle::adminLayout.html.twig' %}
+
+{# Customize view error fields #}
+{% form_theme form _self %}
+
+{% block form_errors %}
+    {% spaceless %}
+        {% if errors|length > 0 %}
+            {% for error in errors %}
+                <p class="msg_err">{{ error.message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endspaceless %} 
+{% endblock form_errors %}
+
+{% block content %}
+
+    <div class="add_edit_page_title">
+        <h2>Add System User</h2>
+    </div>
+
+    <form id="add_user_form" action="" method="post" novalidate>
+        {# Profile #}
+        <div class="form_container">
+            <table border="0" align="center" width="80%" >
+                <tr class="form_head">
+                    <td  colspan=4>
+                        <h3>User information</h3>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td width="18%">
+                        First Name *
+                    </td>
+                    <td width="34%">                        
+                        {{ form_widget(form.profile.firstName, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td width="18%">
+                        Last Name *
+                    </td>
+                    <td width="28%">                    
+                        {{ form_widget(form.profile.lastName, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.profile.firstName) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.profile.lastName) }}
+                    </td>
+                </tr>
+
+                {# Address #}
+                {# <tr>
+                    <td>
+                        Address *
+                    </td>
+                    <td>                    
+                        {{ form_widget(form.address.address, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        City *
+                    </td>
+                    <td>
+                        {{ form_widget(form.address.city, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>                    
+                        {{ form_errors(form.address.address) }}
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        {{ form_errors(form.address.city) }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        State *
+                    </td>
+                    <td>                    
+                        {{ form_widget(form.address.state, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        Zipcode *
+                    </td>
+                    <td>
+                        {{ form_widget(form.address.zip, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>                    
+                        {{ form_errors(form.address.state) }}
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        {{ form_errors(form.address.zip) }}
+                    </td>
+                </tr> #}
+                {# endAdress #}
+
+                <tr>
+                    <td>
+                        Email *
+                    </td>
+                    <td>                        
+                        {{ form_widget(form.profile.email.first, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>                        
+                        Email Confirm *
+                    </td>
+                    <td>
+                        {{ form_widget(form.profile.email.second, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.profile.email.first) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">                        
+                        {{ form_errors(form.profile.email.second) }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Home Phone *
+                    </td>
+                    <td>                        
+                        {{ form_widget(form.profile.homePhone, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        Cell Phone
+                    </td>
+                    <td>
+                        {{ form_widget(form.profile.cellPhone, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.profile.homePhone) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.profile.cellPhone) }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Password *
+                    </td>
+                    <td>
+                        {{ form_widget(form.profile.password.first, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        Alterntive Phone
+                    </td>
+                    <td>
+                        {{ form_widget(form.profile.altPhone, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.profile.password.first) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                        {{ form_errors(form.profile.altPhone) }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Password<br/>  Confirm *
+                    </td>
+                    <td>
+                        {{ form_widget(form.profile.password.second, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <td width="18%">  
+                    </td>
+                    <td width="34%" >
+                        {{ form_errors(form.profile.password.second) }}
+                    </td>
+                    <td width="18%">
+                    </td>
+                    <td width="28%">
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+        {# endProfile #}
+
+        {# AltContact #}
+        <div class="form_container" style="margin: 10px auto;">
+            <table  border="0" align="center" width="80%" >
+                <tr>
+                    <td class="form_head"  colspan=4>
+                        <h3>Alt Contact</h3>
+                    </td>
+                </tr>
+
+                <tr>                
+                    <td>
+                        First Name
+                    </td>
+                    <td>
+                        {{ form_widget(form.altContact.firstName, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        Last Name
+                    </td>
+                    <td>
+                        {{ form_widget(form.altContact.lastName, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>               
+                </tr>
+                <tr>                
+                    <td>
+                    </td>
+                    <td>
+                        {{ form_errors(form.altContact.firstName) }}
+                    </td>
+                    <td>                    
+                    </td>
+                    <td>
+                        {{ form_errors(form.altContact.lastName) }}
+                    </td>               
+                </tr>
+
+
+                <tr>                
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        {{ form_widget(form.altContact.email, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>
+                    <td>
+                        Phone
+                    </td>
+                    <td>
+                        {{ form_widget(form.altContact.phone, { 'attr': {'style': 'width: 150px;'}}) }}
+                    </td>               
+                </tr>
+                <tr>                
+                    <td>
+                    </td>
+                    <td>
+                        {{ form_errors(form.altContact.email) }}
+                    </td>
+                    <td>                    
+                    </td>
+                    <td>
+                        {{ form_errors(form.altContact.phone) }}
+                    </td>               
+                </tr>
+
+            </table>
+        </div>
+        {# endAltContact #}
+
+        <div style="text-align:center">
+            {{ form_widget(form.save, { 'attr': {'class': 'button'}}) }}
+        </div>        
+        {{ form_end(form) }}
+    </form>
+
+    <a href="{{ path('system_users') }}" class="button" style="margin-left:900px;">Back</a>
+
+{% endblock %}

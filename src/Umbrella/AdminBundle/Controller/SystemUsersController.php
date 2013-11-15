@@ -11,8 +11,10 @@ use Umbrella\AdminBundle\Entity\Address;
 use Umbrella\AdminBundle\Form\Type\AddUserType;
 use Umbrella\AdminBundle\Form\Model\AddUser;
 
-
-
+/**
+ *
+ *
+ */
 class SystemUsersController extends Controller
 {
     public function indexAction()
@@ -20,6 +22,10 @@ class SystemUsersController extends Controller
         return $this->render('UmbrellaAdminBundle:Pages:systemUsers.html.twig');
     }
 
+    /**
+     * View add user page.
+     * Create and valid add user form. 
+     */
     public function addUserAction(Request $request)
     {
         $addUser = new AddUser();
@@ -31,7 +37,9 @@ class SystemUsersController extends Controller
         if ( ! $form->isValid()) {
             return $this->render(
                 'UmbrellaAdminBundle:Pages:addUser.html.twig',
-                array('form' => $form->createView())
+                array(
+                    'form' => $form->createView(),
+                )
             );
         }
         else
@@ -42,10 +50,14 @@ class SystemUsersController extends Controller
             $em->persist($addUser->getProfile());
             $em->persist($addUser->getAltContact());
             $em->flush();
-            
-            return new Response('add user');
-        }
-        
 
+
+            $this->get('session')->getFlashBag()->add(
+                'msg',
+                'New User successfully added'
+            );
+            
+            return $this->redirect($this->generateURL('system_users'));
+        }
     }
 }

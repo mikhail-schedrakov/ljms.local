@@ -18,6 +18,10 @@ class Address
      */
     protected $addressID;
     
+    /**
+     * @ORM\OneToOne(targetEntity="AltContact")
+     * @ORM\JoinColumn(name="profileID", referencedColumnName="profileID")
+     */
     protected $profileID;
 
     /**
