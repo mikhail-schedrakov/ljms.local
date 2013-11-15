@@ -9,7 +9,7 @@ use Umbrella\AdminBundle\Entity\Profile;
 use Umbrella\AdminBundle\Entity\AltContact;
 use Umbrella\AdminBundle\Entity\Address;
 use Umbrella\AdminBundle\Form\Type\AddUserType;
-use Umbrella\AdminBundle\Form\Model\AddSystemUser;
+use Umbrella\AdminBundle\Form\Model\AddUser;
 
 
 
@@ -22,7 +22,7 @@ class SystemUsersController extends Controller
 
     public function addUserAction(Request $request)
     {
-        $addUser = new AddSystemUser();
+        $addUser = new AddUser();
 
         $form = $this->createForm(new AddUserType(), $addUser);
 
@@ -40,6 +40,7 @@ class SystemUsersController extends Controller
 
             $em = $this->getDoctrine()->getEntityManager();   
             $em->persist($addUser->getProfile());
+            $em->persist($addUser->getAltContact());
             $em->flush();
             
             return new Response('add user');

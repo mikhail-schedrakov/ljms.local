@@ -21,7 +21,6 @@ class AltContactType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Umbrella\AdminBundle\Entity\AltContact',
-            'validation_groups' => array('addUser'),
         ));
     }
 
